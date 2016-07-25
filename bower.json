@@ -1,0 +1,22 @@
+{
+  "name": "easy-forms",
+  "description": "Forms + ReactJS",
+  "main": "easy-form.js",
+  "authors": [
+    "Cesar Rodas <cesar@rodas.me>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "forms",
+    "react",
+    "reactjs"
+  ],
+  "homepage": "https://github.com/crodas/EasyForm",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

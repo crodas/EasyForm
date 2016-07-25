@@ -5,7 +5,7 @@ var config = {
      entry: './src/index.jsx',
      output: {
          path: __dirname,
-         filename: 'easy-form.js',
+         filename: 'form.js',
          library: ['EasyForm'],
      },
      externals: {
