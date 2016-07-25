@@ -12,6 +12,10 @@ Forms and React made easy.
 
 ## Usage
 
+```bash
+npm install --save easy-forms
+```
+
 ```js
 import Form from 'easy-forms';
 import React from 'react';
@@ -40,3 +44,5 @@ class MyForm extends React.Component {
   }
 }
 ```
+
+
