@@ -27,11 +27,11 @@ class MyForm extends React.Component {
     return <div>
       <div className="form-group">
         <label>E-mail</label>
-        <form.Text  className="form-control" name="email" placeholder="E-mail address" />
+        <form.Input type="email" className="form-control" name="email" placeholder="E-mail address" />
       </div>
       <div className="form-group">
         <label>Password</label>
-        <form.Password  className="form-control" name="password" placeholder="Password" />
+        <form.Input type="password"  className="form-control" name="password" placeholder="Password" />
       </div>
       <button onClick={e => {
         console.error('submit form with values', this.form.getValues()) 
