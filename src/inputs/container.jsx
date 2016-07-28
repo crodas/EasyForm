@@ -14,6 +14,10 @@ export default class Container extends React.Component {
         this.inputs = {};
     }
 
+    removeField(name) {
+        delete this.inputs[name];
+    }
+
     registerField(name, value) {
         this.inputs[name] = value;
     } 
@@ -77,13 +81,9 @@ export default class Container extends React.Component {
             });
         }
         
-        if (element.type.prototype instanceof InputBase || element.type.prototype instanceof Container) {
-            return React.cloneElement(element, {
-                form: this,
-            });
-        }
-
-        return element;
+        return React.cloneElement(element, {
+            form: this,
+        });
     }
 
     render() {

@@ -5,7 +5,6 @@ import InputBase from './base.jsx';
 export default class Input extends InputBase {
     constructor(args) {
         super(args);
-        console.error('input', this.props.form);
     }
     render() {
         let {type, ...props} = this.props;
