@@ -2,9 +2,10 @@ import Global from '../events.jsx';
 import React from 'react';
 import InputBase from './base.jsx';
 
-class Input extends InputBase {
+export default class Input extends InputBase {
     constructor(args) {
         super(args);
+        console.error('input', this.props.form);
     }
     render() {
         let {type, ...props} = this.props;
