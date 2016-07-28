@@ -3,9 +3,6 @@ import React from 'react';
 import InputBase from './base.jsx';
 
 class Input extends InputBase {
-    constructor(args) {
-        super(args);
-    }
     render() {
         let {type, ...props} = this.props;
         return <input 
@@ -18,9 +15,6 @@ class Input extends InputBase {
 }
 
 class TextArea extends InputBase {
-    constructor(args) {
-        super(args);
-    }
     render() {
         return <textarea
             {...this.props}
