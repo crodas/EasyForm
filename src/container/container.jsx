@@ -1,13 +1,9 @@
 import React from 'react';
-import Form from '../form.jsx';
-import InputBase from './base.jsx';
+import Form from './form.jsx';
 
 export default class Container extends React.Component {
     constructor(args) {
         super(args);
-        if (!(this.props.form instanceof Container) && !(this.props.form instanceof Form)) {
-            throw new Error("The input must be inside of a form/container");
-        }
         if (this.props.form instanceof Container) {
             this.props.form.registerField(this.props.name, this);
         }
@@ -68,25 +64,22 @@ export default class Container extends React.Component {
 
 
     attachElements(element) {
-        if (element.props && element.props.children) {
-            return React.cloneElement(element, {
-                children: this.attachElements(element.props.children),
-                form: this,
-            })
-        }
+        let form = this;
+        return React.Children.map(element.props.children, child => {
+            if ((child.props||{}).children) {
+                let children = this.attachElements(child);
+                return React.cloneElement(child, {form, children});
+            }
 
-        if (element instanceof Array) {
-            return element.map( child => {
-                return this.attachElements(child)
-            });
-        }
-        
-        return React.cloneElement(element, {
-            form: this,
+            if (child.type instanceof Object) {
+                return React.cloneElement(child, {form});
+            }
+
+            return child;
         });
     }
 
     render() {
-        return <div>{this.attachElements(this.props.children || [])}</div>
+        return <div className="container">{this.attachElements(this)}</div>
     }
 }

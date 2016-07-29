@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from './container.jsx';
+import Container from '../container/container.jsx';
 
 export default class Base extends React.Component {
     constructor(args) {
