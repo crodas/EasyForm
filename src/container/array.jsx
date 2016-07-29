@@ -7,6 +7,7 @@ export default class InputArray extends Container {
         this.template = args.children;
         this.state    = { children: [] }
     }
+
     getValue() {
         let values = [];
         for (var name in this.inputs) {
