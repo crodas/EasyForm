@@ -56,7 +56,11 @@ export default class Container extends React.Component {
     setValues(values) {
         for (let key in values) {
             if (values.hasOwnProperty(key) && this.inputs[key]) {
-                this.inputs[key].setState({value: values[key]});
+                if (this.inputs[key] instanceof Container) {
+                    this.inputs[key].setValues(values[key]);
+                } else {
+                    this.inputs[key].setState({value: values[key]});
+                }
             }
         }
         return this;
