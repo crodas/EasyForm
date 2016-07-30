@@ -8,6 +8,7 @@ export default class Container extends React.Component {
             this.props.form.registerField(this.props.name, this);
         }
         this.inputs = {};
+        this.children = this.attachElements(this);
     }
 
     removeField(name) {
@@ -56,6 +57,7 @@ export default class Container extends React.Component {
     setValues(values) {
         for (let key in values) {
             if (values.hasOwnProperty(key) && this.inputs[key]) {
+                console.error(this.inputs[key]);
                 if (this.inputs[key] instanceof Container) {
                     this.inputs[key].setValues(values[key]);
                 } else {
@@ -84,6 +86,8 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <div className="container">{this.attachElements(this)}</div>
+        return <div className="container">
+            {this.children}
+        </div>
     }
 }
