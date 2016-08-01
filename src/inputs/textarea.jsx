@@ -1,7 +1,7 @@
 import React from 'react';
 import InputBase from './base.jsx';
 
-class TextArea extends InputBase {
+export default class TextArea extends InputBase {
     constructor(args) {
         super(args);
     }

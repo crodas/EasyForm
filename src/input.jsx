@@ -1,16 +1,26 @@
+import React from 'react';
 import Input from './inputs/text.jsx';
 import TextArea from './inputs/textarea.jsx';
-import Select from './inputs/select.jsx';
-import InputArray from './container/array.jsx';
-import InputObject from './container/container.jsx';
+import DropDown from './inputs/select.jsx';
+import ArrayContainer from './container/array.jsx';
+import Container from './container/container.jsx';
 
 import './validate.jsx'
 
+function Group(args) {
+    if (args.multiple) {
+        return <ArrayContainer {...args} />
+    }
+
+    return <Container {...args} />
+}
+
 export {
     Input,
-    InputArray,
-    InputObject,
+    Group,
+    Container,
+    ArrayContainer,
     TextArea,
-    Select,
-    Select as DropDown
+    DropDown,
+    DropDown as Select,
 };
