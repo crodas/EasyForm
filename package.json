@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "micro-events": "^1.0.0",
+    "react-dropzone": "^3.5.3",
     "webpack-preset": "^0.2.0",
     "webpack-preset-babel": "^0.2.0",
     "webpack-preset-babel-stage-2": "^0.2.0"

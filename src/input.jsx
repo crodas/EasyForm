@@ -4,6 +4,7 @@ import TextArea from './inputs/textarea.jsx';
 import DropDown from './inputs/select.jsx';
 import ArrayContainer from './container/array.jsx';
 import Container from './container/container.jsx';
+import Dropzone from './inputs/dropzone.jsx';
 
 import './validate.jsx'
 
@@ -23,4 +24,5 @@ export {
     TextArea,
     DropDown,
     DropDown as Select,
+    Dropzone,
 };
