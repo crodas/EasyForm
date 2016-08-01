@@ -848,13 +848,13 @@ var EasyForm =
 	                throw new Error('Expecting array of values for ' + this.props.name);
 	            }
 
-	            var inputs = (0, _utils.toArray)(this.state.children);
+	            var inputs = (0, _utils.toArray)(this.inputs);
 
 	            for (var i = 0; i < values.length - inputs.length; ++i) {
-	                this.addBlock(false);
+	                this.addBlock();
 	            }
 
-	            inputs = (0, _utils.toArray)(this.state.children);
+	            inputs = (0, _utils.toArray)(this.inputs);
 	            for (var _i = 0; _i < values.length; ++_i) {
 	                inputs[_i].setValues(values[_i]);
 	            }
@@ -888,14 +888,12 @@ var EasyForm =
 	    }, {
 	        key: 'addBlock',
 	        value: function addBlock() {
-	            var setState = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
-
 	            var children = this.state.children;
 	            var id = (0, _utils.Random)();
 
 	            children[id] = _react2.default.createElement(_container2.default, { key: id, children: this.clone(this.template, id), form: this, name: id });
 
-	            setState && this.setState({ children: children });
+	            this.setState({ children: children });
 	        }
 	    }, {
 	        key: 'render',
