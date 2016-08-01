@@ -5,6 +5,7 @@ import DropDown from './inputs/select.jsx';
 import ArrayContainer from './container/array.jsx';
 import Container from './container/container.jsx';
 import Dropzone from './inputs/dropzone.jsx';
+import BaseInput from './inputs/base.jsx';
 
 import './validate.jsx'
 
@@ -17,6 +18,7 @@ function Group(args) {
 }
 
 export {
+    BaseInput,
     Input,
     Group,
     Container,
