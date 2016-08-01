@@ -1,17 +1,16 @@
 import React from 'react';
 import InputBase from './base.jsx';
 
-export default class Input extends InputBase {
+class TextArea extends InputBase {
     constructor(args) {
         super(args);
     }
     render() {
-        let {type, ...props} = this.props;
-        return <input 
-            {...props}
-            type={type || 'text'}
+        return <textarea
+            {...this.props}
             value={this.getValue()}
             onChange={event => this._setValue(event.target.value) }
         />;
     }
 }
+
