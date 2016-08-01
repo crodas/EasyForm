@@ -8,15 +8,20 @@ export default class Container extends React.Component {
             this.props.form.registerField(this.props.name, this);
         }
         this.inputs = {};
+        this.state  = {};
         this.children = this.attachElements(this);
     }
 
     removeField(name) {
+        this.state[name] = this.inputs[name].getValue();
         delete this.inputs[name];
     }
 
     registerField(name, value) {
         this.inputs[name] = value;
+        if (this.state[name]) {
+            value.setState({value: this.state[name]});
+        }
     } 
 
     getValue() {
@@ -53,11 +58,9 @@ export default class Container extends React.Component {
         return errors;
     }
 
-
     setValues(values) {
         for (let key in values) {
             if (values.hasOwnProperty(key) && this.inputs[key]) {
-                console.error(this.inputs[key]);
                 if (this.inputs[key] instanceof Container) {
                     this.inputs[key].setValues(values[key]);
                 } else {
@@ -68,6 +71,11 @@ export default class Container extends React.Component {
         return this;
     }
 
+    componentWillUnmount() {
+        if (this.props.form) {
+            this.props.form.removeField(this.props.name);
+        }
+    }
 
     attachElements(element) {
         let form = this;

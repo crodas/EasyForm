@@ -16,7 +16,7 @@ function Label(val) {
     return val;
 }
 
-class Select extends InputBase {
+export default class Select extends InputBase {
     validate() {
         let value = this.getValue();
         if (value && this.props.values.indexOf(value)) {
@@ -65,7 +65,3 @@ Select.propTypes = SelectFilter.propTypes = {
     values: React.PropTypes.array.isRequired,
 };
 
-Global.on('register.input', form => {
-    form.register('Select', Select);
-    form.register('SelectFilter', SelectFilter);
-});

@@ -15,6 +15,24 @@ export default class InputArray extends Container {
         });
     }
 
+    setValues(values) {
+        if (!(values instanceof Array)) {
+            throw new Error(`Expecting array of values for ${this.props.name}`);
+        }
+
+        let inputs = toArray(this.inputs);
+
+        for (let i = 0; i < values.length - inputs.length; ++i) {
+            this.addBlock();
+        }
+
+        inputs = toArray(this.inputs);
+        for (let i = 0; i < values.length; ++i) {
+            inputs[i].setValues(values[i]);
+        }
+
+    }
+
     clone(children, id) {
         return React.Children.map(children, child => {
             let args = {key: Random()};
