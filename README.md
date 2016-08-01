@@ -17,7 +17,7 @@ npm install --save easy-forms
 ```
 
 ```js
-import Form from 'easy-forms';
+import {Form, Input} from 'easy-forms';
 import React from 'react';
 
 
@@ -28,19 +28,19 @@ class MyForm extends React.Component {
   }
   render() {
     let form = this.form;
-    return <div>
+    return <form.Container>
       <div className="form-group">
         <label>E-mail</label>
-        <form.Input type="email" className="form-control" name="email" placeholder="E-mail address" />
+        <Input type="email" className="form-control" name="email" placeholder="E-mail address" />
       </div>
       <div className="form-group">
         <label>Password</label>
-        <form.Input type="password"  className="form-control" name="password" placeholder="Password" />
+        <Input type="password"  className="form-control" name="password" placeholder="Password" />
       </div>
       <button onClick={e => {
-        console.error('submit form with values', this.form.getValues()) 
+        console.error('submit form with values', form.getValues()) 
       }} className="btn btn-default">Submit</button>
-    </div>
+    </form.Container>
   }
 }
 ```

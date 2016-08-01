@@ -47,141 +47,31 @@ var EasyForm =
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.Extend = exports.default = exports.Form = undefined;
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _events = __webpack_require__(2);
+	var _events = __webpack_require__(1);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _microEvents = __webpack_require__(3);
+	var _form = __webpack_require__(3);
 
-	var _microEvents2 = _interopRequireDefault(_microEvents);
+	var _form2 = _interopRequireDefault(_form);
 
-	__webpack_require__(4);
+	var _input = __webpack_require__(6);
+
+	var inputs = _interopRequireWildcard(_input);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Form = function (_EventEmitter) {
-	    _inherits(Form, _EventEmitter);
-
-	    function Form() {
-	        _classCallCheck(this, Form);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this));
-
-	        _this.inputs = {};
-	        _this._emit('register.input', _this);
-	        return _this;
-	    }
-
-	    _createClass(Form, [{
-	        key: '_emit',
-	        value: function _emit() {
-	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	                args[_key] = arguments[_key];
-	            }
-
-	            _events2.default.emit.apply(_events2.default, args);
-	            this.emit.apply(this, args);
-	        }
-	    }, {
-	        key: 'register',
-	        value: function register(name, Input) {
-	            var _this2 = this;
-
-	            this[name] = function (args) {
-	                var input = new Input(args);
-	                _this2.inputs[args.name] = input;
-	                return input;
-	            };
-	            this[name].propTypes = Object.assign({ name: _react2.default.PropTypes.string.isRequired }, Input.propTypes || {});
-	        }
-	    }, {
-	        key: 'setValues',
-	        value: function setValues(values) {
-	            for (var key in values) {
-	                if (values.hasOwnProperty(key) && this.inputs[key]) {
-	                    this.inputs[key].setState({ value: values[key] });
-	                }
-	            }
-	            return this;
-	        }
-	    }, {
-	        key: '_doValidate',
-	        value: function _doValidate(input) {
-	            var value = input.getValue();
-	            console.error(value);
-	        }
-	    }, {
-	        key: 'validate',
-	        value: function validate() {
-	            var errors = [];
-	            for (var name in this.inputs) {
-	                if (this.inputs.hasOwnProperty(name)) {
-	                    var input = this.inputs[name];
-	                    var value = input.getValue();
-	                    var validator = void 0;
-	                    try {
-	                        validator = 'internal';
-	                        input.validate();
-	                        for (var key in input.props) {
-	                            if (input.props.hasOwnProperty(key) && ['string', 'boolean'].indexOf(_typeof(input.props[key])) !== -1) {
-	                                validator = key + '.' + input.props[key];
-	                                this._emit(validator, value, input);
-	                            }
-	                        }
-	                    } catch (e) {
-	                        errors.push({ name: name, value: value, message: e.message, validator: validator });
-	                    }
-	                }
-	            }
-	            return errors;
-	        }
-	    }, {
-	        key: 'getValues',
-	        value: function getValues() {
-	            var values = {};
-	            for (var name in this.inputs) {
-	                if (this.inputs.hasOwnProperty(name)) {
-	                    values[name] = this.inputs[name].getValue();
-	                }
-	            }
-	            return values;
-	        }
-	    }]);
-
-	    return Form;
-	}(_microEvents2.default);
-
-	exports.Form = Form;
-	exports.default = Form;
-	exports.Extend = _events2.default;
+	module.exports = exports = Object.assign({
+	    __esModule: true,
+	    default: _form2.default,
+	    Extend: _events2.default,
+	    Form: _form2.default
+	}, inputs);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	module.exports = React;
-
-/***/ },
-/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -190,7 +80,7 @@ var EasyForm =
 	  value: true
 	});
 
-	var _microEvents = __webpack_require__(3);
+	var _microEvents = __webpack_require__(2);
 
 	var _microEvents2 = _interopRequireDefault(_microEvents);
 
@@ -199,7 +89,7 @@ var EasyForm =
 	exports.default = new _microEvents2.default();
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports) {
 
 	function _each(arr, func, thisArg) {
@@ -285,16 +175,88 @@ var EasyForm =
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(5);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	__webpack_require__(7);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	__webpack_require__(8);
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _microEvents = __webpack_require__(2);
+
+	var _microEvents2 = _interopRequireDefault(_microEvents);
+
+	var _container = __webpack_require__(5);
+
+	var _container2 = _interopRequireDefault(_container);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Form = function (_EventEmitter) {
+	    _inherits(Form, _EventEmitter);
+
+	    function Form() {
+	        _classCallCheck(this, Form);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this));
+
+	        _this.Container = function (args) {
+	            return _this._container = new _container2.default(args);
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Form, [{
+	        key: '_emit',
+	        value: function _emit() {
+	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	                args[_key] = arguments[_key];
+	            }
+
+	            GlobalEmitter.emit.apply(GlobalEmitter, args);
+	            this.emit.apply(this, args);
+	        }
+	    }, {
+	        key: 'setValues',
+	        value: function setValues(values) {
+	            return this._container.setValues(values);
+	        }
+	    }, {
+	        key: 'getValues',
+	        value: function getValues() {
+	            return this._container.getValue();
+	        }
+	    }, {
+	        key: '_doValidate',
+	        value: function _doValidate(input) {
+	            var value = input.getValue();
+	        }
+	    }]);
+
+	    return Form;
+	}(_microEvents2.default);
+
+	exports.default = Form;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = React;
 
 /***/ },
 /* 5 */
@@ -302,19 +264,212 @@ var EasyForm =
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _form = __webpack_require__(3);
+
+	var _form2 = _interopRequireDefault(_form);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Container = function (_React$Component) {
+	    _inherits(Container, _React$Component);
+
+	    function Container(args) {
+	        _classCallCheck(this, Container);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Container).call(this, args));
+
+	        if (_this.props.form instanceof Container) {
+	            _this.props.form.registerField(_this.props.name, _this);
+	        }
+	        _this.inputs = {};
+	        _this.state = {};
+	        _this.children = _this.attachElements(_this);
+	        return _this;
+	    }
+
+	    _createClass(Container, [{
+	        key: 'removeField',
+	        value: function removeField(name) {
+	            this.state[name] = this.inputs[name].getValue();
+	            delete this.inputs[name];
+	        }
+	    }, {
+	        key: 'registerField',
+	        value: function registerField(name, value) {
+	            this.inputs[name] = value;
+	            if (this.state[name]) {
+	                value.setState({ value: this.state[name] });
+	            }
+	        }
+	    }, {
+	        key: 'getValue',
+	        value: function getValue() {
+	            var values = {};
+	            for (var name in this.inputs) {
+	                if (this.inputs.hasOwnProperty(name)) {
+	                    values[name] = this.inputs[name].getValue();
+	                }
+	            }
+	            return values;
+	        }
+	    }, {
+	        key: 'validate',
+	        value: function validate() {
+	            var errors = [];
+	            for (var name in this.inputs) {
+	                if (this.inputs.hasOwnProperty(name)) {
+	                    var input = this.inputs[name];
+	                    var value = input.getValue();
+	                    var validator = void 0;
+	                    try {
+	                        validator = 'internal';
+	                        input.validate();
+	                        for (var key in input.props) {
+	                            if (input.props.hasOwnProperty(key) && ['string', 'boolean'].indexOf(_typeof(input.props[key])) !== -1) {
+	                                validator = key + '.' + input.props[key];
+	                                this._emit(validator, value, input);
+	                            }
+	                        }
+	                    } catch (e) {
+	                        errors.push({ name: name, value: value, message: e.message, validator: validator });
+	                    }
+	                }
+	            }
+	            return errors;
+	        }
+	    }, {
+	        key: 'setValues',
+	        value: function setValues(values) {
+	            for (var key in values) {
+	                if (values.hasOwnProperty(key) && this.inputs[key]) {
+	                    if (this.inputs[key] instanceof Container) {
+	                        this.inputs[key].setValues(values[key]);
+	                    } else {
+	                        this.inputs[key].setState({ value: values[key] });
+	                    }
+	                }
+	            }
+	            return this;
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            if (this.props.form) {
+	                this.props.form.removeField(this.props.name);
+	            }
+	        }
+	    }, {
+	        key: 'attachElements',
+	        value: function attachElements(element) {
+	            var _this2 = this;
+
+	            var form = this;
+	            return _react2.default.Children.map(element.props.children, function (child) {
+	                if ((child.props || {}).children) {
+	                    var children = _this2.attachElements(child);
+	                    return _react2.default.cloneElement(child, { form: form, children: children });
+	                }
+
+	                if (child.type instanceof Object) {
+	                    return _react2.default.cloneElement(child, { form: form });
+	                }
+
+	                return child;
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'container' },
+	                this.children
+	            );
+	        }
+	    }]);
+
+	    return Container;
+	}(_react2.default.Component);
+
+	exports.default = Container;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Select = exports.InputObject = exports.InputArray = exports.Input = undefined;
+
+	var _text = __webpack_require__(7);
+
+	var _text2 = _interopRequireDefault(_text);
+
+	var _select = __webpack_require__(9);
+
+	var _select2 = _interopRequireDefault(_select);
+
+	var _array = __webpack_require__(10);
+
+	var _array2 = _interopRequireDefault(_array);
+
+	var _container = __webpack_require__(5);
+
+	var _container2 = _interopRequireDefault(_container);
+
+	__webpack_require__(12);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.Input = _text2.default;
+	exports.InputArray = _array2.default;
+	exports.InputObject = _container2.default;
+	exports.Select = _select2.default;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _events = __webpack_require__(2);
+	var _events = __webpack_require__(1);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _react = __webpack_require__(1);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _base = __webpack_require__(6);
+	var _base = __webpack_require__(8);
 
 	var _base2 = _interopRequireDefault(_base);
 
@@ -360,6 +515,8 @@ var EasyForm =
 	    return Input;
 	}(_base2.default);
 
+	exports.default = Input;
+
 	var TextArea = function (_InputBase2) {
 	    _inherits(TextArea, _InputBase2);
 
@@ -392,7 +549,7 @@ var EasyForm =
 	});
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -403,9 +560,13 @@ var EasyForm =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(1);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _container = __webpack_require__(5);
+
+	var _container2 = _interopRequireDefault(_container);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -428,6 +589,19 @@ var EasyForm =
 	    }
 
 	    _createClass(Base, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            if (!(this.props.form instanceof _container2.default)) {
+	                throw new Error("The input must be inside of a form/container");
+	            }
+	            this.props.form.registerField(this.props.name, this);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            this.props.form.removeField(this.props.name);
+	        }
+	    }, {
 	        key: '_setValue',
 	        value: function _setValue(value) {
 	            this.setState({ value: value });
@@ -451,10 +625,14 @@ var EasyForm =
 	exports.default = Base;
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -462,15 +640,15 @@ var EasyForm =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _events = __webpack_require__(2);
+	var _events = __webpack_require__(1);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _react = __webpack_require__(1);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _base = __webpack_require__(6);
+	var _base = __webpack_require__(8);
 
 	var _base2 = _interopRequireDefault(_base);
 
@@ -545,6 +723,8 @@ var EasyForm =
 	    return Select;
 	}(_base2.default);
 
+	exports.default = Select;
+
 	var SelectFilter = function (_Select) {
 	    _inherits(SelectFilter, _Select);
 
@@ -611,18 +791,169 @@ var EasyForm =
 	    values: _react2.default.PropTypes.array.isRequired
 	};
 
-	_events2.default.on('register.input', function (form) {
-	    form.register('Select', Select);
-	    form.register('SelectFilter', SelectFilter);
-	});
-
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _events = __webpack_require__(2);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _container = __webpack_require__(5);
+
+	var _container2 = _interopRequireDefault(_container);
+
+	var _utils = __webpack_require__(11);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var InputArray = function (_Container) {
+	    _inherits(InputArray, _Container);
+
+	    function InputArray(args) {
+	        _classCallCheck(this, InputArray);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InputArray).call(this, args));
+
+	        _this.template = args.children;
+	        _this.state = { children: {} };
+	        return _this;
+	    }
+
+	    _createClass(InputArray, [{
+	        key: 'getValue',
+	        value: function getValue() {
+	            return (0, _utils.toArray)(this.inputs).map(function (input) {
+	                return input.getValue();
+	            });
+	        }
+	    }, {
+	        key: 'setValues',
+	        value: function setValues(values) {
+	            if (!(values instanceof Array)) {
+	                throw new Error('Expecting array of values for ' + this.props.name);
+	            }
+
+	            var inputs = (0, _utils.toArray)(this.inputs);
+
+	            for (var i = 0; i < values.length - inputs.length; ++i) {
+	                this.addBlock();
+	            }
+
+	            inputs = (0, _utils.toArray)(this.inputs);
+	            for (var _i = 0; _i < values.length; ++_i) {
+	                inputs[_i].setValues(values[_i]);
+	            }
+	        }
+	    }, {
+	        key: 'clone',
+	        value: function clone(children, id) {
+	            var _this2 = this;
+
+	            return _react2.default.Children.map(children, function (child) {
+	                var args = { key: (0, _utils.Random)() };
+	                if (child.props.removeBlock) {
+	                    args = { onClick: function onClick(e) {
+	                            if (typeof child.props.onClick === 'function') {
+	                                child.props.onClick(e);
+	                            }
+	                            _this2.removeBlock(id);
+	                        } };
+	                }
+	                return _react2.default.cloneElement(child, args);
+	            });
+	        }
+	    }, {
+	        key: 'removeBlock',
+	        value: function removeBlock(id) {
+	            var children = this.state.children;
+	            delete children[id];
+
+	            this.setState({ children: children });
+	        }
+	    }, {
+	        key: 'addBlock',
+	        value: function addBlock() {
+	            var children = this.state.children;
+	            var id = (0, _utils.Random)();
+
+	            children[id] = _react2.default.createElement(_container2.default, { key: id, children: this.clone(this.template, id), form: this, name: id });
+
+	            this.setState({ children: children });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this3 = this;
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'container' },
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'btn', onClick: function onClick(e) {
+	                            return _this3.addBlock();
+	                        } },
+	                    'Add block'
+	                ),
+	                (0, _utils.toArray)(this.state.children)
+	            );
+	        }
+	    }]);
+
+	    return InputArray;
+	}(_container2.default);
+
+	exports.default = InputArray;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Random = Random;
+	exports.toArray = toArray;
+	function Random() {
+	    var length = arguments.length <= 0 || arguments[0] === undefined ? 10 : arguments[0];
+
+	    return Math.random().toString(36).substr(2, length);
+	}
+
+	function toArray(object) {
+	    var values = [];
+	    for (var name in object) {
+	        if (object.hasOwnProperty(name)) {
+	            values.push(object[name]);
+	        }
+	    }
+	    return values;
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _events = __webpack_require__(1);
 
 	var _events2 = _interopRequireDefault(_events);
 
