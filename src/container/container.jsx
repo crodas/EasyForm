@@ -2,14 +2,22 @@ import React from 'react';
 import Form from './form.jsx';
 
 export default class Container extends React.Component {
+    static childContextTypes = {
+        form: React.PropTypes.objectOf(Container)
+    };
+
+    static contextTypes = {
+        form: React.PropTypes.objectOf(Container)
+    };
+
     constructor(args) {
         super(args);
-        if (this.props.form instanceof Container) {
-            this.props.form.registerField(this.props.name, this);
-        }
         this.inputs = {};
         this.state  = {};
-        this.children = this.attachElements(this);
+    }
+
+    getChildContext() {
+        return { form: this };
     }
 
     removeField(name) {
@@ -71,31 +79,21 @@ export default class Container extends React.Component {
         return this;
     }
 
-    componentWillUnmount() {
-        if (this.props.form) {
-            this.props.form.removeField(this.props.name);
+    componentDidMount() {
+        if ((this.context||{}).form instanceof Container) {
+            this.context.form.registerField(this.props.name, this);
         }
     }
 
-    attachElements(element) {
-        let form = this;
-        return React.Children.map(element.props.children, child => {
-            if ((child.props||{}).children) {
-                let children = this.attachElements(child);
-                return React.cloneElement(child, {form, children});
-            }
-
-            if (child.type instanceof Object) {
-                return React.cloneElement(child, {form});
-            }
-
-            return child;
-        });
+    componentWillUnmount() {
+        if (this.context.form) {
+            this.context.form.removeField(this.props.name);
+        }
     }
 
     render() {
         return <div className="container">
-            {this.children}
+            {this.props.children}
         </div>
     }
 }

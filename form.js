@@ -301,11 +301,15 @@ var EasyForm =
 	        }
 	        _this.inputs = {};
 	        _this.state = {};
-	        _this.children = _this.attachElements(_this);
 	        return _this;
 	    }
 
 	    _createClass(Container, [{
+	        key: 'getChildContext',
+	        value: function getChildContext() {
+	            return { form: this };
+	        }
+	    }, {
 	        key: 'removeField',
 	        value: function removeField(name) {
 	            this.state[name] = this.inputs[name].getValue();
@@ -363,7 +367,7 @@ var EasyForm =
 	                    if (this.inputs[key] instanceof Container) {
 	                        this.inputs[key].setValues(values[key]);
 	                    } else {
-	                        this.inputs[key].setState({ value: values[key] });
+	                        this.inputs[key]._setValue(values[key]);
 	                    }
 	                }
 	            }
@@ -377,31 +381,12 @@ var EasyForm =
 	            }
 	        }
 	    }, {
-	        key: 'attachElements',
-	        value: function attachElements(element) {
-	            var _this2 = this;
-
-	            var form = this;
-	            return _react2.default.Children.map(element.props.children, function (child) {
-	                if ((child.props || {}).children) {
-	                    var children = _this2.attachElements(child);
-	                    return _react2.default.cloneElement(child, { form: form, children: children });
-	                }
-
-	                if (child.type instanceof Object) {
-	                    return _react2.default.cloneElement(child, { form: form });
-	                }
-
-	                return child;
-	            });
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'container' },
-	                this.children
+	                this.props.children
 	            );
 	        }
 	    }]);
@@ -409,6 +394,9 @@ var EasyForm =
 	    return Container;
 	}(_react2.default.Component);
 
+	Container.childContextTypes = {
+	    form: _react2.default.PropTypes.object
+	};
 	exports.default = Container;
 
 /***/ },
@@ -420,7 +408,7 @@ var EasyForm =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.Dropzone = exports.Select = exports.DropDown = exports.TextArea = exports.ArrayContainer = exports.Container = exports.Group = exports.Input = undefined;
+	exports.Dropzone = exports.Select = exports.DropDown = exports.TextArea = exports.ArrayContainer = exports.Container = exports.Group = exports.Input = exports.BaseInput = undefined;
 
 	var _react = __webpack_require__(4);
 
@@ -450,6 +438,10 @@ var EasyForm =
 
 	var _dropzone2 = _interopRequireDefault(_dropzone);
 
+	var _base = __webpack_require__(8);
+
+	var _base2 = _interopRequireDefault(_base);
+
 	__webpack_require__(15);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -462,6 +454,7 @@ var EasyForm =
 	    return _react2.default.createElement(_container2.default, args);
 	}
 
+	exports.BaseInput = _base2.default;
 	exports.Input = _text2.default;
 	exports.Group = Group;
 	exports.Container = _container2.default;
@@ -580,15 +573,15 @@ var EasyForm =
 	    _createClass(Base, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            if (!(this.props.form instanceof _container2.default)) {
+	            if (!(this.state.form instanceof _container2.default)) {
 	                throw new Error("The input must be inside of a form/container");
 	            }
-	            this.props.form.registerField(this.props.name, this);
+	            this.state.form.registerField(this.props.name, this);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            this.props.form.removeField(this.props.name);
+	            this.state.form.removeField(this.props.name);
 	        }
 	    }, {
 	        key: '_setValue',
@@ -965,6 +958,9 @@ var EasyForm =
 	    return InputArray;
 	}(_container2.default);
 
+	InputArray.childContextTypes = {
+	    form: _react2.default.PropTypes.object
+	};
 	exports.default = InputArray;
 
 /***/ },

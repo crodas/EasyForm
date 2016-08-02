@@ -8,6 +8,9 @@ export default class Form extends EventEmitter {
         this.Container = (args) => {
             return this._container = new Container(args);
         };
+        this.Container.childContextTypes = {
+            form: React.PropTypes.objectOf(Container)
+        };
     }
 
     _emit(...args) {

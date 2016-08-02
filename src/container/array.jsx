@@ -3,6 +3,10 @@ import Container from './container.jsx'
 import {toArray, Random} from '../utils.jsx';
 
 export default class InputArray extends Container {
+    static childContextTypes = {
+        form: React.PropTypes.objectOf(InputArray)
+    };
+
     constructor(args) {
         super(args);
         this.template = args.children;
@@ -71,3 +75,4 @@ export default class InputArray extends Container {
         </div>
     }
 }
+
