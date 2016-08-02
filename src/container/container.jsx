@@ -3,11 +3,11 @@ import Form from './form.jsx';
 
 export default class Container extends React.Component {
     static childContextTypes = {
-        form: React.PropTypes.objectOf(Container)
+        container: React.PropTypes.object.isRequired
     };
 
     static contextTypes = {
-        form: React.PropTypes.objectOf(Container)
+        container: React.PropTypes.object.isRequired
     };
 
     constructor(args) {
@@ -17,7 +17,7 @@ export default class Container extends React.Component {
     }
 
     getChildContext() {
-        return { form: this };
+        return { container: this };
     }
 
     removeField(name) {
@@ -80,15 +80,11 @@ export default class Container extends React.Component {
     }
 
     componentDidMount() {
-        if ((this.context||{}).form instanceof Container) {
-            this.context.form.registerField(this.props.name, this);
-        }
+        this.context.container.registerField(this.props.name, this);
     }
 
     componentWillUnmount() {
-        if (this.context.form) {
-            this.context.form.removeField(this.props.name);
-        }
+        this.context.form.removeField(this.props.name);
     }
 
     render() {
