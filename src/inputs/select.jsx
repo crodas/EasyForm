@@ -3,14 +3,14 @@ import React from 'react';
 import InputBase from './base.jsx';
 
 function Value(val) {
-    if (typeof val === "object" && val.value) {
+    if (typeof val === "object" && val.hasOwnProperty('value')) {
         return val.value;
     }
     return val;
 }
 
 function Label(val) {
-    if (typeof val === "object" && val.label) {
+    if (typeof val === "object" && val.hasOwnProperty('label')) {
         return val.label;
     }
     return val;
