@@ -5,8 +5,8 @@ var config = {
      entry: './src/index.jsx',
      output: {
          path: __dirname,
-         filename: 'reform.js',
-         library: ['reform'],
+         filename: 'reforms.js',
+         library: ['reforms'],
      },
      externals: {
          "react": "React",

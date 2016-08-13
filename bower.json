@@ -1,7 +1,7 @@
 {
-  "name": "easy-forms",
-  "description": "Forms + ReactJS",
-  "main": "easy-form.js",
+  "name": "reforms",
+  "description": "React forms",
+  "main": "reforms.js",
   "authors": [
     "Cesar Rodas <cesar@rodas.me>"
   ],
@@ -11,7 +11,7 @@
     "react",
     "reactjs"
   ],
-  "homepage": "https://github.com/crodas/EasyForm",
+  "homepage": "https://github.com/crodas/Reforms",
   "ignore": [
     "**/.*",
     "node_modules",

@@ -36,12 +36,12 @@ export default class InputArray extends Container {
     clone(children, id) {
         return React.Children.map(children, child => {
             let args = {key: Random()};
-            if (child.props.removeBlock) {
+            if (child.props['remove-group']) {
                 args = { onClick: (e) => {
                     if (typeof child.props.onClick === 'function') {
                         child.props.onClick(e);
                     }
-                    this.removeBlock(id);
+                    this['remove-group'](id);
                 }};
             }
             return React.cloneElement(child, args);
