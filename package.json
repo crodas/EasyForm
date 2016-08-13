@@ -19,6 +19,7 @@
     "react-dom": "^15.2.0",
     "webpack": "^1.13.1"
   },
+  "repository": "crodas/reforms",
   "dependencies": {
     "micro-events": "^1.0.0",
     "react-dropzone": "^3.5.3",
