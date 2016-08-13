@@ -1,5 +1,6 @@
-# EasyForm
-Forms and React made easy.
+# reforms
+
+React forms made easy.
 
 ## Benefits
 
@@ -13,11 +14,11 @@ Forms and React made easy.
 ## Usage
 
 ```bash
-npm install --save easy-forms
+npm install --save reforms
 ```
 
 ```js
-import {Form, Input} from 'easy-forms';
+import {Form, Input} from 'reforms';
 import React from 'react';
 
 
