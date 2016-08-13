@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from './container.jsx'
+import Container from './container.jsx';
 import {toArray, Random} from '../utils.jsx';
 
 export default class InputArray extends Container {
@@ -66,7 +66,6 @@ export default class InputArray extends Container {
 
     render() {
         return <div className="container">
-            <button className="btn" onClick={e=> this.addBlock()}>Add block</button>
             { toArray(this.state.children) }
         </div>
     }
