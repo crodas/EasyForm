@@ -344,6 +344,15 @@ var reforms =
 	            }
 	        }
 	    }, {
+	        key: 'findElement',
+	        value: function findElement(name) {
+	            if (!this.inputs[name]) {
+	                return this.context.findElement(name);
+	            }
+
+	            return this.inputs[name];
+	        }
+	    }, {
 	        key: 'getValue',
 	        value: function getValue() {
 	            var values = {};
@@ -434,7 +443,7 @@ var reforms =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.Dropzone = exports.Select = exports.DropDown = exports.TextArea = exports.ArrayContainer = exports.Container = exports.Group = exports.Input = exports.BaseInput = undefined;
+	exports.Dropzone = exports.Select = exports.DropDown = exports.TextArea = exports.Group = exports.Input = exports.BaseInput = undefined;
 
 	var _react = __webpack_require__(4);
 
@@ -444,23 +453,21 @@ var reforms =
 
 	var _text2 = _interopRequireDefault(_text);
 
-	var _textarea = __webpack_require__(9);
+	var _textarea = __webpack_require__(10);
 
 	var _textarea2 = _interopRequireDefault(_textarea);
 
-	var _select = __webpack_require__(10);
+	var _select = __webpack_require__(11);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _array = __webpack_require__(11);
-
-	var _array2 = _interopRequireDefault(_array);
+	var _array = __webpack_require__(12);
 
 	var _container = __webpack_require__(5);
 
 	var _container2 = _interopRequireDefault(_container);
 
-	var _dropzone = __webpack_require__(13);
+	var _dropzone = __webpack_require__(14);
 
 	var _dropzone2 = _interopRequireDefault(_dropzone);
 
@@ -468,23 +475,24 @@ var reforms =
 
 	var _base2 = _interopRequireDefault(_base);
 
-	__webpack_require__(15);
+	__webpack_require__(16);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function Group(args) {
 	    if (args.multiple) {
-	        return _react2.default.createElement(_array2.default, args);
+	        return _react2.default.createElement(_array.ArrayContainer, args);
 	    }
 
 	    return _react2.default.createElement(_container2.default, args);
 	}
 
+	Group.clone = _array.clone;
+	Group.remove = _array.remove;
+
 	exports.BaseInput = _base2.default;
 	exports.Input = _text2.default;
 	exports.Group = Group;
-	exports.Container = _container2.default;
-	exports.ArrayContainer = _array2.default;
 	exports.TextArea = _textarea2.default;
 	exports.DropDown = _select2.default;
 	exports.Select = _select2.default;
@@ -572,9 +580,9 @@ var reforms =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _container = __webpack_require__(5);
+	var _context = __webpack_require__(9);
 
-	var _container2 = _interopRequireDefault(_container);
+	var _context2 = _interopRequireDefault(_context);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -584,8 +592,8 @@ var reforms =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Base = function (_React$Component) {
-	    _inherits(Base, _React$Component);
+	var Base = function (_Context) {
+	    _inherits(Base, _Context);
 
 	    function Base(args) {
 	        _classCallCheck(this, Base);
@@ -625,15 +633,51 @@ var reforms =
 	    }]);
 
 	    return Base;
-	}(_react2.default.Component);
+	}(_context2.default);
 
-	Base.contextTypes = {
-	    container: _react2.default.PropTypes.object.isRequired
-	};
 	exports.default = Base;
 
 /***/ },
 /* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FormContext = function (_React$Component) {
+	    _inherits(FormContext, _React$Component);
+
+	    function FormContext() {
+	        _classCallCheck(this, FormContext);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FormContext).apply(this, arguments));
+	    }
+
+	    return FormContext;
+	}(_react2.default.Component);
+
+	FormContext.contextTypes = {
+	    container: _react2.default.PropTypes.object.isRequired
+	};
+	exports.default = FormContext;
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -691,7 +735,7 @@ var reforms =
 	exports.default = TextArea;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -858,7 +902,7 @@ var reforms =
 	};
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -866,6 +910,7 @@ var reforms =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.ArrayContainer = exports.remove = exports.clone = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -877,7 +922,11 @@ var reforms =
 
 	var _container2 = _interopRequireDefault(_container);
 
-	var _utils = __webpack_require__(12);
+	var _context = __webpack_require__(9);
+
+	var _context2 = _interopRequireDefault(_context);
+
+	var _utils = __webpack_require__(13);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -887,20 +936,139 @@ var reforms =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var InputArray = function (_Container) {
-	    _inherits(InputArray, _Container);
+	var arrayControl = function (_Context) {
+	    _inherits(arrayControl, _Context);
 
-	    function InputArray(args) {
-	        _classCallCheck(this, InputArray);
+	    function arrayControl(args) {
+	        _classCallCheck(this, arrayControl);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InputArray).call(this, args));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(arrayControl).call(this, args));
 
-	        _this.template = args.children;
-	        _this.state = { children: {} };
+	        _this.state = { children: [] };
 	        return _this;
 	    }
 
-	    _createClass(InputArray, [{
+	    _createClass(arrayControl, [{
+	        key: 'overrideOnClick',
+	        value: function overrideOnClick(children) {
+	            var _this2 = this;
+
+	            return _react2.default.Children.map(children, function (child) {
+	                if (!child.props) return child;
+	                if (child.props.onClick) {
+	                    var onClick = function onClick(ev) {
+	                        child.props.onClick(ev, function () {
+	                            _this2.action();
+	                        });
+	                    };
+
+	                    return _react2.default.cloneElement(child, { onClick: onClick });
+	                }
+
+	                if (child.props.children) {
+	                    return _react2.default.cloneElement(children, {
+	                        children: _this2.overrideOnClick(child.props.children)
+	                    });
+	                }
+
+	                return child;
+	            });
+	        }
+	    }, {
+	        key: 'getGroup',
+	        value: function getGroup(name) {
+	            if (name) {
+	                return this.context.container.findElement(name);
+	            }
+
+	            if (this.context.container instanceof ArrayContainer) {
+	                throw new Error("Container element is not a dynamic Group");
+	            }
+
+	            return this.context.container;
+	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.group = this.getGroup(this.props.name);
+	            this.setState({ children: this.overrideOnClick(this.props.children) });
+	        }
+	    }]);
+
+	    return arrayControl;
+	}(_context2.default);
+
+	var clone = exports.clone = function (_arrayControl) {
+	    _inherits(clone, _arrayControl);
+
+	    function clone() {
+	        _classCallCheck(this, clone);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(clone).apply(this, arguments));
+	    }
+
+	    _createClass(clone, [{
+	        key: 'action',
+	        value: function action() {
+	            this.group.addBlock();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.state.children
+	            );
+	        }
+	    }]);
+
+	    return clone;
+	}(arrayControl);
+
+	var remove = exports.remove = function (_arrayControl2) {
+	    _inherits(remove, _arrayControl2);
+
+	    function remove() {
+	        _classCallCheck(this, remove);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(remove).apply(this, arguments));
+	    }
+
+	    _createClass(remove, [{
+	        key: 'action',
+	        value: function action() {
+	            this.group.addBlock();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            console.error(this.group);
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.state.children
+	            );
+	        }
+	    }]);
+
+	    return remove;
+	}(arrayControl);
+
+	var ArrayContainer = exports.ArrayContainer = function (_Container) {
+	    _inherits(ArrayContainer, _Container);
+
+	    function ArrayContainer(args) {
+	        _classCallCheck(this, ArrayContainer);
+
+	        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(ArrayContainer).call(this, args));
+
+	        _this5.template = args.children;
+	        _this5.state = { children: {} };
+	        return _this5;
+	    }
+
+	    _createClass(ArrayContainer, [{
 	        key: 'getValue',
 	        value: function getValue() {
 	            return (0, _utils.toArray)(this.inputs).map(function (input) {
@@ -928,18 +1096,8 @@ var reforms =
 	    }, {
 	        key: 'clone',
 	        value: function clone(children, id) {
-	            var _this2 = this;
-
 	            return _react2.default.Children.map(children, function (child) {
 	                var args = { key: (0, _utils.Random)() };
-	                if (child.props['remove-group']) {
-	                    args = { onClick: function onClick(e) {
-	                            if (typeof child.props.onClick === 'function') {
-	                                child.props.onClick(e);
-	                            }
-	                            _this2['remove-group'](id);
-	                        } };
-	                }
 	                return _react2.default.cloneElement(child, args);
 	            });
 	        }
@@ -972,13 +1130,11 @@ var reforms =
 	        }
 	    }]);
 
-	    return InputArray;
+	    return ArrayContainer;
 	}(_container2.default);
 
-	exports.default = InputArray;
-
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1005,7 +1161,7 @@ var reforms =
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1024,7 +1180,7 @@ var reforms =
 
 	var _base2 = _interopRequireDefault(_base);
 
-	var _reactDropzone = __webpack_require__(14);
+	var _reactDropzone = __webpack_require__(15);
 
 	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
@@ -1132,7 +1288,7 @@ var reforms =
 	exports.default = DropzoneInput;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -1530,7 +1686,7 @@ var reforms =
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

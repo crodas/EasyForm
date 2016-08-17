@@ -30,7 +30,15 @@ export default class Container extends React.Component {
         if (this.state[name]) {
             value.setState({value: this.state[name]});
         }
-    } 
+    }
+
+    findElement(name) {
+        if (!this.inputs[name]) {
+            return this.context.findElement(name);
+        }
+
+        return this.inputs[name];
+    };
 
     getValue() {
         let values ={};

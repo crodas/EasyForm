@@ -1,10 +1,7 @@
 import React from 'react';
-import Container from '../container/container.jsx';
+import Context from '../context.jsx';
 
-export default class Base extends React.Component {
-    static contextTypes = {
-        container: React.PropTypes.object.isRequired
-    };
+export default class Base extends Context {
     constructor(args) {
         super(args);
         this.state = {};

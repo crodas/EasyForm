@@ -1,8 +1,76 @@
 import React from 'react';
 import Container from './container.jsx';
+import Context from '../context.jsx';
 import {toArray, Random} from '../utils.jsx';
 
-export default class InputArray extends Container {
+class arrayControl extends Context {
+    constructor(args) {
+        super(args);
+        this.state = { children : [] };
+    }
+    overrideOnClick(children) {
+        return React.Children.map(children, child => {
+            if (!child.props) return child;
+            if (child.props.onClick) {
+                let onClick = ev => {
+                    child.props.onClick(ev, () => {
+                        this.action();
+                    });
+                };
+
+                return React.cloneElement(child, {onClick});
+            }
+
+            if (child.props.children) {
+                return React.cloneElement(children, {
+                    children: this.overrideOnClick(child.props.children)
+                });
+            }
+
+            return child;
+        }); 
+    }
+    getGroup(name) {
+        if (name) {
+            return this.context.container.findElement(name);
+        }
+
+        if (this.context.container instanceof ArrayContainer) {
+            throw new Error("Container element is not a dynamic Group");
+        }
+
+        return this.context.container;
+    }
+    componentDidMount() {
+        this.group    = this.getGroup(this.props.name);
+        this.setState({ children: this.overrideOnClick(this.props.children) });
+    }
+}
+
+export class clone extends arrayControl {
+    action() {
+        this.group.addBlock();
+    }
+    render() {
+        return <div>
+            {this.state.children}
+        </div>
+    }
+}
+
+export class remove extends arrayControl {
+    action() {
+        this.group.addBlock();
+    }
+    render() {
+        console.error(this.group);
+        return <div>
+            {this.state.children}
+        </div>
+    }
+}
+
+export class ArrayContainer extends Container {
     constructor(args) {
         super(args);
         this.template = args.children;
@@ -36,14 +104,6 @@ export default class InputArray extends Container {
     clone(children, id) {
         return React.Children.map(children, child => {
             let args = {key: Random()};
-            if (child.props['remove-group']) {
-                args = { onClick: (e) => {
-                    if (typeof child.props.onClick === 'function') {
-                        child.props.onClick(e);
-                    }
-                    this['remove-group'](id);
-                }};
-            }
             return React.cloneElement(child, args);
         });
     }
