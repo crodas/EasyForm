@@ -3,7 +3,13 @@ import Container from './container.jsx';
 import Context from '../context.jsx';
 import {toArray, Random} from '../utils.jsx';
 
-class arrayControl extends Context {
+class Children extends Container {
+    removeBlock() {
+        this.context.container.removeBlock(this.props.name);
+    }
+}
+
+class ArrayControl extends Context {
     constructor(args) {
         super(args);
         this.state = { children : [] };
@@ -31,15 +37,13 @@ class arrayControl extends Context {
         }); 
     }
     getGroup(name) {
-        if (name) {
-            return this.context.container.findElement(name);
-        }
+        let candidate = name ? this.context.container.findElement(name) : this.context.container;
 
-        if (this.context.container instanceof ArrayContainer) {
+        if (!(candidate instanceof this.type)) {
             throw new Error("Container element is not a dynamic Group");
         }
 
-        return this.context.container;
+        return candidate;
     }
     componentDidMount() {
         this.group    = this.getGroup(this.props.name);
@@ -47,7 +51,8 @@ class arrayControl extends Context {
     }
 }
 
-export class clone extends arrayControl {
+export class clone extends ArrayControl {
+    type = ArrayContainer;
     action() {
         this.group.addBlock();
     }
@@ -58,12 +63,12 @@ export class clone extends arrayControl {
     }
 }
 
-export class remove extends arrayControl {
+export class remove extends ArrayControl {
+    type = Children;
     action() {
-        this.group.addBlock();
+        this.group.removeBlock();
     }
     render() {
-        console.error(this.group);
         return <div>
             {this.state.children}
         </div>
@@ -103,8 +108,7 @@ export class ArrayContainer extends Container {
 
     clone(children, id) {
         return React.Children.map(children, child => {
-            let args = {key: Random()};
-            return React.cloneElement(child, args);
+            return React.cloneElement(child);
         });
     }
 
@@ -119,7 +123,7 @@ export class ArrayContainer extends Container {
         let children = this.state.children;
         let id = Random();
 
-        children[id] = <Container key={id} children={this.clone(this.template, id)} form={this} name={id} />
+        children[id] = <Children key={id} children={this.clone(this.template, id)} form={this} name={id} />
 
         this.setState({children})  
     }

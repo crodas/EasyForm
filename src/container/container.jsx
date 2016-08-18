@@ -92,7 +92,7 @@ export default class Container extends React.Component {
     }
 
     componentWillUnmount() {
-        this.context.form.removeField(this.props.name);
+        this.context.container.removeField(this.props.name);
     }
 
     render() {
