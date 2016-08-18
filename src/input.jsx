@@ -2,7 +2,7 @@ import React from 'react';
 import Input from './inputs/text.jsx';
 import TextArea from './inputs/textarea.jsx';
 import DropDown from './inputs/select.jsx';
-import {ArrayContainer, clone, remove}  from './container/array.jsx';
+import ArrayContainer  from './container/array.jsx';
 import Container from './container/container.jsx';
 import Dropzone from './inputs/dropzone.jsx';
 import BaseInput from './inputs/base.jsx';
@@ -16,9 +16,6 @@ function Group(args) {
 
     return <Container {...args} />
 }
-
-Group.clone = clone;
-Group.remove = remove;
 
 export {
     BaseInput,

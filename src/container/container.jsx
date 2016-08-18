@@ -96,7 +96,14 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <div className="container">
+        let args = {};
+        if (this.props.name) {
+            args.name = this.props.name;
+        }
+        if (this.props.id) {
+            args.id = this.props.id;
+        }
+        return <div className="container" {...args}>
             {this.props.children}
         </div>
     }

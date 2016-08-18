@@ -3,83 +3,31 @@ import Container from './container.jsx';
 import Context from '../context.jsx';
 import {toArray, Random} from '../utils.jsx';
 
-class Children extends Container {
-    removeBlock() {
-        this.context.container.removeBlock(this.props.name);
-    }
-}
-
-class ArrayControl extends Context {
+export default class ArrayContainer extends Container {
     constructor(args) {
         super(args);
-        this.state = { children : [] };
-    }
-    overrideOnClick(children) {
-        return React.Children.map(children, child => {
-            if (!child.props) return child;
-            if (child.props.onClick) {
-                let onClick = ev => {
-                    child.props.onClick(ev, () => {
-                        this.action();
-                    });
-                };
-
-                return React.cloneElement(child, {onClick});
-            }
-
-            if (child.props.children) {
-                return React.cloneElement(children, {
-                    children: this.overrideOnClick(child.props.children)
-                });
-            }
-
-            return child;
-        }); 
-    }
-    getGroup(name) {
-        let candidate = name ? this.context.container.findElement(name) : this.context.container;
-
-        if (!(candidate instanceof this.type)) {
-            throw new Error("Container element is not a dynamic Group");
-        }
-
-        return candidate;
-    }
-    componentDidMount() {
-        this.group    = this.getGroup(this.props.name);
-        this.setState({ children: this.overrideOnClick(this.props.children) });
-    }
-}
-
-export class clone extends ArrayControl {
-    type = ArrayContainer;
-    action() {
-        this.group.addBlock();
-    }
-    render() {
-        return <div>
-            {this.state.children}
-        </div>
-    }
-}
-
-export class remove extends ArrayControl {
-    type = Children;
-    action() {
-        this.group.removeBlock();
-    }
-    render() {
-        return <div>
-            {this.state.children}
-        </div>
-    }
-}
-
-export class ArrayContainer extends Container {
-    constructor(args) {
-        super(args);
+        this.groupid  = Random();
         this.template = args.children;
         this.state    = { children: {} }
+        this.props.add(() => {
+            this.addBlock();
+        });
+        this.props.remove(e => {
+            let node = e.target;
+
+            while (node) {
+                if (node.id === this.groupid) {
+                    break;
+                }
+                node = node.parentNode;
+            }
+
+            if (!node) {
+                throw new Error("Remove group has been called outside of a cloned group");
+            }
+
+            this.removeBlock(node.getAttribute('name'));
+        });
     }
 
     getValue() {
@@ -123,7 +71,7 @@ export class ArrayContainer extends Container {
         let children = this.state.children;
         let id = Random();
 
-        children[id] = <Children key={id} children={this.clone(this.template, id)} form={this} name={id} />
+        children[id] = <Container key={id} children={this.clone(this.template, id)} form={this} name={id} id={this.groupid} />
 
         this.setState({children})  
     }
