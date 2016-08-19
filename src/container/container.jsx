@@ -1,5 +1,8 @@
 import React from 'react';
 import Form from './form.jsx';
+import {Random} from '../utils.jsx';
+import {register} from './global.jsx';
+
 
 export default class Container extends React.Component {
     static childContextTypes = {
@@ -14,6 +17,8 @@ export default class Container extends React.Component {
         super(args);
         this.inputs = {};
         this.state  = {};
+        this.id     = this.props.id || Random();
+        register(this);
     }
 
     getChildContext() {
@@ -96,14 +101,7 @@ export default class Container extends React.Component {
     }
 
     render() {
-        let args = {};
-        if (this.props.name) {
-            args.name = this.props.name;
-        }
-        if (this.props.id) {
-            args.id = this.props.id;
-        }
-        return <div className="container" {...args}>
+        return <div className="container" id={this.id}>
             {this.props.children}
         </div>
     }

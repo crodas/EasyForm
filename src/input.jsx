@@ -17,6 +17,9 @@ function Group(args) {
     return <Container {...args} />
 }
 
+Group.add = ArrayContainer.clone;
+Group.remove = ArrayContainer.remove;
+
 export {
     BaseInput,
     Input,

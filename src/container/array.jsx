@@ -2,32 +2,24 @@ import React from 'react';
 import Container from './container.jsx';
 import Context from '../context.jsx';
 import {toArray, Random} from '../utils.jsx';
+import {findWithDOM, get} from './global.jsx';
 
 export default class ArrayContainer extends Container {
+    static clone = (ev, name) => {
+        let container = findWithDOM(ev.target);
+        let array = container.findElement(name);
+
+        array.addBlock();
+    };
+    static remove = (ev) => {
+        let container = findWithDOM(ev.target);
+        let [parentContainer, blockId] = container.props.name.split(/_/);
+        get(parentContainer).removeBlock(blockId);
+    }
     constructor(args) {
         super(args);
-        this.groupid  = Random();
         this.template = args.children;
         this.state    = { children: {} }
-        this.props.add(() => {
-            this.addBlock();
-        });
-        this.props.remove(e => {
-            let node = e.target;
-
-            while (node) {
-                if (node.id === this.groupid) {
-                    break;
-                }
-                node = node.parentNode;
-            }
-
-            if (!node) {
-                throw new Error("Remove group has been called outside of a cloned group");
-            }
-
-            this.removeBlock(node.getAttribute('name'));
-        });
     }
 
     getValue() {
@@ -71,7 +63,7 @@ export default class ArrayContainer extends Container {
         let children = this.state.children;
         let id = Random();
 
-        children[id] = <Container key={id} children={this.clone(this.template, id)} form={this} name={id} id={this.groupid} />
+        children[id] = <Container key={id} children={this.clone(this.template, id)} name={this.id + "_" + id} />
 
         this.setState({children})  
     }
