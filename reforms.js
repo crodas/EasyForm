@@ -305,7 +305,7 @@ var reforms =
 
 	var _utils = __webpack_require__(6);
 
-	var _global = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./global.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _global = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -468,7 +468,44 @@ var reforms =
 	}
 
 /***/ },
-/* 7 */,
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.register = register;
+	exports.get = get;
+	exports.findWithDOM = findWithDOM;
+	var instances = {};
+
+	function register(cont) {
+	    instances[cont.id] = cont;
+	}
+
+	function get(id) {
+	    return instances[id];
+	}
+
+	function findWithDOM(domElement) {
+	    var filter = arguments.length <= 1 || arguments[1] === undefined ? function () {
+	        return true;
+	    } : arguments[1];
+
+	    var node = domElement;
+	    while (node) {
+	        if (instances[node.id] && filter(instances[node.id])) {
+	            return instances[node.id];
+	        }
+	        node = node.parentNode;
+	    }
+
+	    return null;
+	}
+
+/***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -947,6 +984,8 @@ var reforms =
 	    value: true
 	});
 
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(4);
@@ -963,6 +1002,8 @@ var reforms =
 
 	var _utils = __webpack_require__(6);
 
+	var _global = __webpack_require__(7);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -970,8 +1011,6 @@ var reforms =
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	function getContainerFromDomElement(dom) {}
 
 	var ArrayContainer = function (_Container) {
 	    _inherits(ArrayContainer, _Container);
@@ -981,27 +1020,8 @@ var reforms =
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArrayContainer).call(this, args));
 
-	        _this.groupid = (0, _utils.Random)();
 	        _this.template = args.children;
 	        _this.state = { children: {} };
-	        /*
-	        this.props.add(() => {
-	            this.addBlock();
-	        });
-	        this.props.remove(e => {
-	            let node = e.target;
-	             while (node) {
-	                if (node.id === this.groupid) {
-	                    break;
-	                }
-	                node = node.parentNode;
-	            }
-	             if (!node) {
-	                throw new Error("Remove group has been called outside of a cloned group");
-	            }
-	             this.removeBlock(node.getAttribute('name'));
-	        });
-	        */
 	        return _this;
 	    }
 
@@ -1051,7 +1071,7 @@ var reforms =
 	            var children = this.state.children;
 	            var id = (0, _utils.Random)();
 
-	            children[id] = _react2.default.createElement(_container2.default, { key: id, children: this.clone(this.template, id), name: this.groupid + "_" + id });
+	            children[id] = _react2.default.createElement(_container2.default, { key: id, children: this.clone(this.template, id), name: this.id + "_" + id });
 
 	            this.setState({ children: children });
 	        }
@@ -1070,10 +1090,24 @@ var reforms =
 	}(_container2.default);
 
 	ArrayContainer.clone = function (ev, name) {
-	    console.error(ev.target);
+	    var container = (0, _global.findWithDOM)(ev.target);
+	    var array = container.findElement(name);
+
+	    array.addBlock();
 	};
 
-	ArrayContainer.remove = function (ev) {};
+	ArrayContainer.remove = function (ev) {
+	    var container = (0, _global.findWithDOM)(ev.target);
+
+	    var _container$props$name = container.props.name.split(/_/);
+
+	    var _container$props$name2 = _slicedToArray(_container$props$name, 2);
+
+	    var parentContainer = _container$props$name2[0];
+	    var blockId = _container$props$name2[1];
+
+	    (0, _global.get)(parentContainer).removeBlock(blockId);
+	};
 
 	exports.default = ArrayContainer;
 
