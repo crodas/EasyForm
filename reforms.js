@@ -486,6 +486,9 @@ var reforms =
 	}
 
 	function get(id) {
+	    if (!instances[id]) {
+	        throw new Error("Cannot find container " + id);
+	    }
 	    return instances[id];
 	}
 
@@ -502,7 +505,7 @@ var reforms =
 	        node = node.parentNode;
 	    }
 
-	    return null;
+	    throw new Error("DOM element must be inside a form");
 	}
 
 /***/ },
