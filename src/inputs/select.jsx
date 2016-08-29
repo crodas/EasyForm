@@ -25,6 +25,11 @@ export default class Select extends InputBase {
     }
     render() {
         let {values, value, ...props} = this.props;
+        if (!this.getValue() && values.length > 0) {
+            setTimeout(() => {
+                this._setValue(Value(values[0]));
+            });
+        }
         return <select {...props} value={this.getValue()} onChange={e => this._setValue(e.target.value)}>
             {values.map(option => {
                 return <option key={Value(option)} value={Value(option)}>{Label(option)}</option>;
