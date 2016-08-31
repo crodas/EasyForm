@@ -69,7 +69,7 @@ export default class ArrayContainer extends Container {
     }
 
     render() {
-        return <div className="container">
+        return <div className={this.props.className||''} id={this.id}>
             { toArray(this.state.children) }
         </div>
     }
