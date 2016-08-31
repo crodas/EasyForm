@@ -423,7 +423,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'container', id: this.id },
+	                { className: this.props.className || '', id: this.id },
 	                this.props.children
 	            );
 	        }
@@ -885,10 +885,12 @@ var reforms =
 
 	            var props = _objectWithoutProperties(_props, ['values', 'value']);
 
-	            if (!this.getValue() && values.length > 0) {
+	            if (!this.getValue() && values.length > 0 && Value(values[0])) {
 	                setTimeout(function () {
-	                    _this2._setValue(Value(values[0]));
-	                });
+	                    if (!_this2.getValue()) {
+	                        _this2._setValue(Value(values[0]));
+	                    }
+	                }, 1);
 	            }
 	            return _react2.default.createElement(
 	                'select',
@@ -1083,7 +1085,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'container' },
+	                { className: this.props.className || '', id: this.id },
 	                (0, _utils.toArray)(this.state.children)
 	            );
 	        }
