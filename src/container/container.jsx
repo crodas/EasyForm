@@ -101,7 +101,7 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <div className="container" id={this.id}>
+        return <div className={this.props.className||''} id={this.id}>
             {this.props.children}
         </div>
     }
