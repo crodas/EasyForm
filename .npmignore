@@ -2,6 +2,7 @@ src
 scripts
 examples
 site
+demo*
 __site__
 __site_prerender__
 webpack.config.js
