@@ -1,15 +1,28 @@
 import React from 'react';
 import Form from './form.jsx';
+import {Random} from '../utils.jsx';
+import {register} from './global.jsx';
+
 
 export default class Container extends React.Component {
+    static childContextTypes = {
+        container: React.PropTypes.object.isRequired
+    };
+
+    static contextTypes = {
+        container: React.PropTypes.object.isRequired
+    };
+
     constructor(args) {
         super(args);
-        if (this.props.form instanceof Container) {
-            this.props.form.registerField(this.props.name, this);
-        }
         this.inputs = {};
         this.state  = {};
-        this.children = this.attachElements(this);
+        this.id     = this.props.id || Random();
+        register(this);
+    }
+
+    getChildContext() {
+        return { container: this };
     }
 
     removeField(name) {
@@ -22,7 +35,15 @@ export default class Container extends React.Component {
         if (this.state[name]) {
             value.setState({value: this.state[name]});
         }
-    } 
+    }
+
+    findElement(name) {
+        if (!this.inputs[name]) {
+            return this.context.findElement(name);
+        }
+
+        return this.inputs[name];
+    };
 
     getValue() {
         let values ={};
@@ -64,38 +85,24 @@ export default class Container extends React.Component {
                 if (this.inputs[key] instanceof Container) {
                     this.inputs[key].setValues(values[key]);
                 } else {
-                    this.inputs[key].setState({value: values[key]});
+                    this.inputs[key]._setValue(values[key]);
                 }
             }
         }
         return this;
     }
 
-    componentWillUnmount() {
-        if (this.props.form) {
-            this.props.form.removeField(this.props.name);
-        }
+    componentDidMount() {
+        this.context.container.registerField(this.props.name, this);
     }
 
-    attachElements(element) {
-        let form = this;
-        return React.Children.map(element.props.children, child => {
-            if ((child.props||{}).children) {
-                let children = this.attachElements(child);
-                return React.cloneElement(child, {form, children});
-            }
-
-            if (child.type instanceof Object) {
-                return React.cloneElement(child, {form});
-            }
-
-            return child;
-        });
+    componentWillUnmount() {
+        this.context.container.removeField(this.props.name);
     }
 
     render() {
-        return <div className="container">
-            {this.children}
+        return <div className="container" id={this.id}>
+            {this.props.children}
         </div>
     }
 }

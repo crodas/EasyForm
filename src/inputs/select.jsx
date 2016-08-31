@@ -3,14 +3,14 @@ import React from 'react';
 import InputBase from './base.jsx';
 
 function Value(val) {
-    if (typeof val === "object" && val.value) {
+    if (typeof val === "object" && val.hasOwnProperty('value')) {
         return val.value;
     }
     return val;
 }
 
 function Label(val) {
-    if (typeof val === "object" && val.label) {
+    if (typeof val === "object" && val.hasOwnProperty('label')) {
         return val.label;
     }
     return val;
@@ -25,6 +25,11 @@ export default class Select extends InputBase {
     }
     render() {
         let {values, value, ...props} = this.props;
+        if (!this.getValue() && values.length > 0) {
+            setTimeout(() => {
+                this._setValue(Value(values[0]));
+            });
+        }
         return <select {...props} value={this.getValue()} onChange={e => this._setValue(e.target.value)}>
             {values.map(option => {
                 return <option key={Value(option)} value={Value(option)}>{Label(option)}</option>;

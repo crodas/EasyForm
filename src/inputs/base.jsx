@@ -1,19 +1,16 @@
 import React from 'react';
-import Container from '../container/container.jsx';
+import Context from '../context.jsx';
 
-export default class Base extends React.Component {
+export default class Base extends Context {
     constructor(args) {
         super(args);
         this.state = {};
     }
     componentDidMount() {
-        if (!(this.props.form instanceof Container)) {
-            throw new Error("The input must be inside of a form/container");
-        }
-        this.props.form.registerField(this.props.name, this);
+        this.context.container.registerField(this.props.name, this);
     }
     componentWillUnmount() {
-        this.props.form.removeField(this.props.name);
+        this.context.container.removeField(this.props.name);
     }
     _setValue(value) {
         this.setState({value});

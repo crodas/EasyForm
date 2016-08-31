@@ -2,11 +2,20 @@ import React from 'react';
 import EventEmitter from 'micro-events';
 import Container from './container.jsx';
 
+
+class FormContainer extends Container {
+    static contextTypes = {};
+
+    componentDidMount() {
+        this.props.form._container = this;
+    }
+}
+
 export default class Form extends EventEmitter {
     constructor() {
         super();
         this.Container = (args) => {
-            return this._container = new Container(args);
+            return <FormContainer {...args} form={this} />
         };
     }
 

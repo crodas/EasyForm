@@ -1,8 +1,21 @@
 import React from 'react';
-import Container from './container.jsx'
+import Container from './container.jsx';
+import Context from '../context.jsx';
 import {toArray, Random} from '../utils.jsx';
+import {findWithDOM, get} from './global.jsx';
 
-export default class InputArray extends Container {
+export default class ArrayContainer extends Container {
+    static clone = (ev, name) => {
+        let container = findWithDOM(ev.target);
+        let array = container.findElement(name);
+
+        array.addBlock();
+    };
+    static remove = (ev) => {
+        let container = findWithDOM(ev.target);
+        let [parentContainer, blockId] = container.props.name.split(/_/);
+        get(parentContainer).removeBlock(blockId);
+    }
     constructor(args) {
         super(args);
         this.template = args.children;
@@ -35,16 +48,7 @@ export default class InputArray extends Container {
 
     clone(children, id) {
         return React.Children.map(children, child => {
-            let args = {key: Random()};
-            if (child.props.removeBlock) {
-                args = { onClick: (e) => {
-                    if (typeof child.props.onClick === 'function') {
-                        child.props.onClick(e);
-                    }
-                    this.removeBlock(id);
-                }};
-            }
-            return React.cloneElement(child, args);
+            return React.cloneElement(child);
         });
     }
 
@@ -59,15 +63,15 @@ export default class InputArray extends Container {
         let children = this.state.children;
         let id = Random();
 
-        children[id] = <Container key={id} children={this.clone(this.template, id)} form={this} name={id} />
+        children[id] = <Container key={id} children={this.clone(this.template, id)} name={this.id + "_" + id} />
 
         this.setState({children})  
     }
 
     render() {
         return <div className="container">
-            <button className="btn" onClick={e=> this.addBlock()}>Add block</button>
             { toArray(this.state.children) }
         </div>
     }
 }
+

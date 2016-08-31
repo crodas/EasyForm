@@ -5,8 +5,8 @@ var config = {
      entry: './src/index.jsx',
      output: {
          path: __dirname,
-         filename: 'form.js',
-         library: ['EasyForm'],
+         filename: 'reforms.js',
+         library: ['reforms'],
      },
      externals: {
          "react": "React",
@@ -18,7 +18,7 @@ var config = {
              loader: 'babel-loader',
              exclude: /node_modules/,
              query: {
-                 presets: ['stage-2', 'es2015', 'react']
+                 presets: ['stage-2', 'es2015', 'react', 'stage-0']
              }    
          }]
     }
