@@ -1,12 +1,12 @@
 import React from 'react';
-import Input from './inputs/text.jsx';
-import TextArea from './inputs/textarea.jsx';
-import DropDown from './inputs/select.jsx';
-import ArrayContainer  from './container/array.jsx';
-import Container from './container/container.jsx';
-import BaseInput from './inputs/base.jsx';
+import Input from './inputs/text';
+import TextArea from './inputs/textarea';
+import DropDown from './inputs/select';
+import ArrayContainer  from './container/array';
+import Container from './container/container';
+import BaseInput from './inputs/base';
 
-import './validate.jsx'
+import './validate'
 
 function Group(args) {
     if (args.multiple) {

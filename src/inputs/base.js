@@ -1,5 +1,5 @@
 import React from 'react';
-import Context from '../context.jsx';
+import Context from '../context';
 
 export default class Base extends Context {
     constructor(args) {

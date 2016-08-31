@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 var config = {
-     entry: './src/index.jsx',
+     entry: './src/index',
      output: {
          path: __dirname,
          filename: 'reforms.js',
@@ -14,7 +14,7 @@ var config = {
      },
      module: {
          loaders: [{
-             test: /.jsx?$/,
+             test: /\.js$/,
              loader: 'babel-loader',
              exclude: /node_modules/,
              query: {

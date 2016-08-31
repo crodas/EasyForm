@@ -1,8 +1,8 @@
 import React from 'react';
-import Container from './container.jsx';
-import Context from '../context.jsx';
-import {toArray, Random} from '../utils.jsx';
-import {findWithDOM, get} from './global.jsx';
+import Container from './container';
+import Context from '../context';
+import {toArray, Random} from '../utils';
+import {findWithDOM, get} from './global';
 
 export default class ArrayContainer extends Container {
     static clone = (ev, name) => {
