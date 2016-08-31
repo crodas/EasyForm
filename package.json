@@ -1,11 +1,11 @@
 {
   "name": "reforms",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "",
   "main": "lib/index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/babel src --out-dir lib"
+    "build": "./node_modules/.bin/babel src --out-dir lib ; webpack "
   },
   "author": "",
   "license": "ISC",

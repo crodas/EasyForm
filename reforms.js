@@ -214,7 +214,7 @@ var reforms =
 	    function FormContainer() {
 	        _classCallCheck(this, FormContainer);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FormContainer).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (FormContainer.__proto__ || Object.getPrototypeOf(FormContainer)).apply(this, arguments));
 	    }
 
 	    _createClass(FormContainer, [{
@@ -235,7 +235,7 @@ var reforms =
 	    function Form() {
 	        _classCallCheck(this, Form);
 
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this));
+	        var _this2 = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
 	        _this2.Container = function (args) {
 	            return _react2.default.createElement(FormContainer, _extends({}, args, { form: _this2 }));
@@ -321,7 +321,7 @@ var reforms =
 	    function Container(args) {
 	        _classCallCheck(this, Container);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Container).call(this, args));
+	        var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, args));
 
 	        _this.inputs = {};
 	        _this.state = {};
@@ -607,7 +607,7 @@ var reforms =
 	    function Input(args) {
 	        _classCallCheck(this, Input);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Input).call(this, args));
+	        return _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, args));
 	    }
 
 	    _createClass(Input, [{
@@ -669,7 +669,7 @@ var reforms =
 	    function Base(args) {
 	        _classCallCheck(this, Base);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Base).call(this, args));
+	        var _this = _possibleConstructorReturn(this, (Base.__proto__ || Object.getPrototypeOf(Base)).call(this, args));
 
 	        _this.state = {};
 	        return _this;
@@ -736,7 +736,7 @@ var reforms =
 	    function FormContext() {
 	        _classCallCheck(this, FormContext);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FormContext).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (FormContext.__proto__ || Object.getPrototypeOf(FormContext)).apply(this, arguments));
 	    }
 
 	    return FormContext;
@@ -783,7 +783,7 @@ var reforms =
 	    function TextArea(args) {
 	        _classCallCheck(this, TextArea);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TextArea).call(this, args));
+	        return _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, args));
 	    }
 
 	    _createClass(TextArea, [{
@@ -863,7 +863,7 @@ var reforms =
 	    function Select() {
 	        _classCallCheck(this, Select);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Select).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).apply(this, arguments));
 	    }
 
 	    _createClass(Select, [{
@@ -919,7 +919,7 @@ var reforms =
 	    function SelectFilter() {
 	        _classCallCheck(this, SelectFilter);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(SelectFilter).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (SelectFilter.__proto__ || Object.getPrototypeOf(SelectFilter)).apply(this, arguments));
 	    }
 
 	    _createClass(SelectFilter, [{
@@ -1023,7 +1023,7 @@ var reforms =
 	    function ArrayContainer(args) {
 	        _classCallCheck(this, ArrayContainer);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArrayContainer).call(this, args));
+	        var _this = _possibleConstructorReturn(this, (ArrayContainer.__proto__ || Object.getPrototypeOf(ArrayContainer)).call(this, args));
 
 	        _this.template = args.children;
 	        _this.state = { children: {} };

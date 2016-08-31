@@ -1,6 +1,6 @@
-import GlobalEmitter from './events.jsx';
-import Form from './container/form.jsx';
-import * as inputs from './input.jsx';
+import GlobalEmitter from './events';
+import Form from './container/form';
+import * as inputs from './input';
 
 module.exports = exports = Object.assign({
     __esModule: true,

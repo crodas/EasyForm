@@ -1,6 +1,6 @@
-import Global from '../events.jsx';
+import Global from '../events';
 import React from 'react';
-import InputBase from './base.jsx';
+import InputBase from './base';
 import 'whatwg-fetch';
 
 class FileUpload extends FileBase {

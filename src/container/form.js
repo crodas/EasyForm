@@ -1,6 +1,6 @@
 import React from 'react';
 import EventEmitter from 'micro-events';
-import Container from './container.jsx';
+import Container from './container';
 
 
 class FormContainer extends Container {

@@ -1,7 +1,7 @@
 import React from 'react';
-import Form from './form.jsx';
-import {Random} from '../utils.jsx';
-import {register} from './global.jsx';
+import Form from './form';
+import {Random} from '../utils';
+import {register} from './global';
 
 
 export default class Container extends React.Component {
