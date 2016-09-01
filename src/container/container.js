@@ -22,7 +22,7 @@ export default class Container extends React.Component {
     }
 
     getChildContext() {
-        return { container: this };
+        return {container: this};
     }
 
     removeField(name) {
@@ -97,7 +97,9 @@ export default class Container extends React.Component {
     }
 
     componentWillUnmount() {
-        this.context.container.removeField(this.props.name);
+        if (this.context.container) {
+            this.context.container.removeField(this.props.name);
+        }
     }
 
     render() {

@@ -425,7 +425,9 @@ var reforms =
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            this.context.container.removeField(this.props.name);
+	            if (this.context.container) {
+	                this.context.container.removeField(this.props.name);
+	            }
 	        }
 	    }, {
 	        key: 'render',
