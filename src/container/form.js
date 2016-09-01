@@ -18,7 +18,7 @@ export default class Form extends EventEmitter {
     constructor() {
         super();
         this._values = {};
-        this.Container = (args) => {
+        this.Container = this.render = (args) => {
             return <FormContainer {...args} form={this} values={this._values} />
         };
     }

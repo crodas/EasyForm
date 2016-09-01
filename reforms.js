@@ -241,7 +241,7 @@ var reforms =
 	        var _this2 = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
 	        _this2._values = {};
-	        _this2.Container = function (args) {
+	        _this2.Container = _this2.render = function (args) {
 	            return _react2.default.createElement(FormContainer, _extends({}, args, { form: _this2, values: _this2._values }));
 	        };
 	        return _this2;
