@@ -221,6 +221,9 @@ var reforms =
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.props.form._container = this;
+	            if (this.props.values) {
+	                this.props.form._container.setValues(this.props.values);
+	            }
 	        }
 	    }]);
 
@@ -237,8 +240,9 @@ var reforms =
 
 	        var _this2 = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
-	        _this2.Container = function (args) {
-	            return _react2.default.createElement(FormContainer, _extends({}, args, { form: _this2 }));
+	        _this2._values = {};
+	        _this2.Container = _this2.render = function (args) {
+	            return _react2.default.createElement(FormContainer, _extends({}, args, { form: _this2, values: _this2._values }));
 	        };
 	        return _this2;
 	    }
@@ -256,7 +260,12 @@ var reforms =
 	    }, {
 	        key: 'setValues',
 	        value: function setValues(values) {
-	            return this._container.setValues(values);
+	            if (this._container) {
+	                this._container.setValues(values);
+	            } else {
+	                this._values = Object.assign({}, this._values, values);
+	            }
+	            return this;
 	        }
 	    }, {
 	        key: 'getValues',

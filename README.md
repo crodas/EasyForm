@@ -29,7 +29,7 @@ class MyForm extends React.Component {
   }
   render() {
     let form = this.form;
-    return <form.Container>
+    return <form.render>
       <div className="form-group">
         <label>E-mail</label>
         <Input type="email" className="form-control" name="email" placeholder="E-mail address" />
@@ -41,7 +41,7 @@ class MyForm extends React.Component {
       <button onClick={e => {
         console.error('submit form with values', form.getValues()) 
       }} className="btn btn-default">Submit</button>
-    </form.Container>
+    </form.render>
   }
 }
 ```

@@ -8,14 +8,18 @@ class FormContainer extends Container {
 
     componentDidMount() {
         this.props.form._container = this;
+        if (this.props.values) {
+            this.props.form._container.setValues(this.props.values);
+        }
     }
 }
 
 export default class Form extends EventEmitter {
     constructor() {
         super();
-        this.Container = (args) => {
-            return <FormContainer {...args} form={this} />
+        this._values = {};
+        this.Container = this.render = (args) => {
+            return <FormContainer {...args} form={this} values={this._values} />
         };
     }
 
@@ -25,7 +29,12 @@ export default class Form extends EventEmitter {
     }
 
     setValues(values) {
-        return this._container.setValues(values);
+        if (this._container) {
+            this._container.setValues(values);
+        } else {
+            this._values = Object.assign({}, this._values, values);
+        }
+        return this;
     }
 
     getValues() {
