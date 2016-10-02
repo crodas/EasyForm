@@ -103,8 +103,8 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <div className={this.props.className||''} id={this.id}>
+        return <form-container className={this.props.className||''} id={this.id}>
             {this.props.children}
-        </div>
+        </form-container>
     }
 }
