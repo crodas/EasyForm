@@ -69,9 +69,9 @@ export default class ArrayContainer extends Container {
     }
 
     render() {
-        return <form-container className={this.props.className||''} id={this.id}>
+        return <reforms className={this.props.className||''} id={this.id}>
             { toArray(this.state.children) }
-        </form-container>
+        </reforms>
     }
 }
 
