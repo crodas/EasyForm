@@ -433,7 +433,7 @@ var reforms =
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'form-container',
+	                'reforms',
 	                { className: this.props.className || '', id: this.id },
 	                this.props.children
 	            );
@@ -1095,7 +1095,7 @@ var reforms =
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'form-container',
+	                'reforms',
 	                { className: this.props.className || '', id: this.id },
 	                (0, _utils.toArray)(this.state.children)
 	            );
