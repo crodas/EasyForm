@@ -6,7 +6,7 @@ React forms made easy.
 
 1. Ease of use.
 2. Best of both worlds (React and Javascript).
-  1. `Form` object to popular the form, get the values afterwards
+  1. `Form` object to populate the form, get the values afterwards
   2. React components to render the form.
 3. Extensible
   1. Easy to define new Input types.
