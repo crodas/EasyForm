@@ -244,6 +244,12 @@ var reforms =
 	        _this2.Container = _this2.render = function (args) {
 	            return _react2.default.createElement(FormContainer, _extends({}, args, { form: _this2, values: _this2._values }));
 	        };
+
+	        var wrapper = function wrapper() {};
+
+	        for (var prop in _this2) {
+	            wrapper[prop] = _this2[prop].bind(_this2);
+	        }
 	        return _this2;
 	    }
 
