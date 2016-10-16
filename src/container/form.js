@@ -14,13 +14,10 @@ class FormContainer extends Container {
     }
 }
 
-export default class Form extends EventEmitter {
+class Form extends EventEmitter {
     constructor() {
         super();
         this._values = {};
-        this.Container = this.render = (args) => {
-            return <FormContainer {...args} form={this} values={this._values} />
-        };
     }
 
     _emit(...args) {
@@ -47,3 +44,24 @@ export default class Form extends EventEmitter {
 
 }
 
+
+export default class WrappedForm {
+    constructor() {
+        let form = new Form;
+        let wrapper = function(args) {
+            return <FormContainer {...args} form={form} values={form._values} />
+        };
+
+        for (let prop in form) {
+            wrapper[prop] = typeof form[prop] === 'function' ? form[prop].bind(this) : form[prop];
+        }
+
+        ['Container', 'form', 'render'].map(m => wrapper[m] = wrapper);
+
+        Object.getOwnPropertyNames(form.__proto__).map(prop => {
+            wrapper[prop] = form[prop].bind(form);
+        });
+
+        return wrapper;;
+    }
+}
