@@ -241,15 +241,6 @@ var reforms =
 	        var _this2 = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
 	        _this2._values = {};
-	        _this2.Container = _this2.render = function (args) {
-	            return _react2.default.createElement(FormContainer, _extends({}, args, { form: _this2, values: _this2._values }));
-	        };
-
-	        var wrapper = function wrapper() {};
-
-	        for (var prop in _this2) {
-	            wrapper[prop] = _this2[prop].bind(_this2);
-	        }
 	        return _this2;
 	    }
 
@@ -288,7 +279,30 @@ var reforms =
 	    return Form;
 	}(_microEvents2.default);
 
-	exports.default = Form;
+	var WrappedForm = function WrappedForm() {
+	    _classCallCheck(this, WrappedForm);
+
+	    var form = new Form();
+	    var wrapper = function wrapper(args) {
+	        return _react2.default.createElement(FormContainer, _extends({}, args, { form: form, values: form._values }));
+	    };
+
+	    for (var prop in form) {
+	        wrapper[prop] = typeof form[prop] === 'function' ? form[prop].bind(this) : form[prop];
+	    }
+
+	    ['Container', 'form', 'render'].map(function (m) {
+	        return wrapper[m] = wrapper;
+	    });
+
+	    Object.getOwnPropertyNames(form.__proto__).map(function (prop) {
+	        wrapper[prop] = form[prop].bind(form);
+	    });
+
+	    return wrapper;;
+	};
+
+	exports.default = WrappedForm;
 
 /***/ },
 /* 4 */
