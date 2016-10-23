@@ -3,6 +3,9 @@ import Container from './container';
 import Context from '../context';
 import {toArray, Random} from '../utils';
 import {findWithDOM, get} from './global';
+import stateless from './stateless';
+
+
 
 export default class ArrayContainer extends Container {
     static clone = (ev, name) => {
@@ -69,9 +72,9 @@ export default class ArrayContainer extends Container {
     }
 
     render() {
-        return <reforms className={this.props.className||''} id={this.id}>
-            { toArray(this.state.children) }
-        </reforms>
+        return <stateless>
+            {toArray(this.state.children)}
+        </stateless>
     }
 }
 

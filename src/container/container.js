@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './form';
 import {Random} from '../utils';
 import {register} from './global';
+import stateless from './stateless';
 
 
 export default class Container extends React.Component {
@@ -103,8 +104,8 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <reforms className={this.props.className||''} id={this.id}>
+        return <stateless>
             {this.props.children}
-        </reforms>
+        </stateless>
     }
 }
