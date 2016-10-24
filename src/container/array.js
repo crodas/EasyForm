@@ -1,9 +1,8 @@
 import React from 'react';
 import Container from './container';
 import Context from '../context';
-import {toArray, Random} from '../utils';
+import {toArray, Random, stateless} from '../utils';
 import {findWithDOM, get} from './global';
-import stateless from './stateless';
 
 
 
@@ -42,10 +41,12 @@ export default class ArrayContainer extends Container {
             this.addBlock();
         }
 
-        inputs = toArray(this.inputs);
-        for (let i = 0; i < values.length; ++i) {
-            inputs[i].setValues(values[i]);
-        }
+        setTimeout(() => {
+            inputs = toArray(this.inputs);
+            for (let i = 0; i < values.length; ++i) {
+                inputs[i].setValues(values[i]);
+            }
+        });
 
     }
 

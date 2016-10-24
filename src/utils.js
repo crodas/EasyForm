@@ -11,3 +11,7 @@ export function toArray(object) {
     }
     return values;
 }
+
+export function stateless(props) {
+    return props.children;
+}
