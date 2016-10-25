@@ -462,7 +462,7 @@ var reforms =
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'stateless',
+	                _utils.Stateless,
 	                null,
 	                this.props.children
 	            );
@@ -491,7 +491,7 @@ var reforms =
 	});
 	exports.Random = Random;
 	exports.toArray = toArray;
-	exports.stateless = stateless;
+	exports.Stateless = Stateless;
 	function Random() {
 	    var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
 
@@ -508,7 +508,10 @@ var reforms =
 	    return values;
 	}
 
-	function stateless(props) {
+	function Stateless(props) {
+	    if (!props.children) {
+	        return null;
+	    }
 	    return props.children;
 	}
 
@@ -1235,7 +1238,7 @@ var reforms =
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'stateless',
+	                _utils.Stateless,
 	                null,
 	                (0, _utils.toArray)(this.state.children)
 	            );
