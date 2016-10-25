@@ -1,6 +1,6 @@
 {
   "name": "reforms",
-  "version": "0.6.1",
+  "version": "0.7.1",
   "description": "Forms and React made easy",
   "main": "lib/index",
   "scripts": {
