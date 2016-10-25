@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from './container';
 import Context from '../context';
-import {toArray, Random, stateless} from '../utils';
+import {toArray, Random, Stateless} from '../utils';
 import {get, scope, getCurrentScope} from './global';
 
 export default class ArrayContainer extends Container {
@@ -90,9 +90,9 @@ export default class ArrayContainer extends Container {
     }
 
     render() {
-        return <stateless>
+        return <Stateless>
             {toArray(this.state.children)}
-        </stateless>
+        </Stateless>
     }
 }
 
