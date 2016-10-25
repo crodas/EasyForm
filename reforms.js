@@ -55,7 +55,11 @@ var reforms =
 
 	var _form2 = _interopRequireDefault(_form);
 
-	var _input = __webpack_require__(8);
+	var _objectAssign = __webpack_require__(8);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	var _input = __webpack_require__(9);
 
 	var inputs = _interopRequireWildcard(_input);
 
@@ -63,7 +67,7 @@ var reforms =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports = exports = Object.assign({
+	module.exports = exports = (0, _objectAssign2.default)({
 	    __esModule: true,
 	    default: _form2.default,
 	    Extend: _events2.default,
@@ -200,6 +204,10 @@ var reforms =
 
 	var _container2 = _interopRequireDefault(_container);
 
+	var _objectAssign = __webpack_require__(8);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -260,7 +268,7 @@ var reforms =
 	            if (this._container) {
 	                this._container.setValues(values);
 	            } else {
-	                this._values = Object.assign({}, this._values, values);
+	                this._values = (0, _objectAssign2.default)({}, this._values, values);
 	            }
 	            return this;
 	        }
@@ -320,7 +328,7 @@ var reforms =
 	    value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -485,7 +493,7 @@ var reforms =
 	exports.toArray = toArray;
 	exports.stateless = stateless;
 	function Random() {
-	    var length = arguments.length <= 0 || arguments[0] === undefined ? 10 : arguments[0];
+	    var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
 
 	    return Math.random().toString(36).substr(2, length);
 	}
@@ -549,6 +557,95 @@ var reforms =
 
 /***/ },
 /* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+	/* eslint-disable no-unused-vars */
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	function shouldUseNative() {
+		try {
+			if (!Object.assign) {
+				return false;
+			}
+
+			// Detect buggy property enumeration order in older V8 versions.
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+			var test1 = new String('abc');  // eslint-disable-line
+			test1[5] = 'de';
+			if (Object.getOwnPropertyNames(test1)[0] === '5') {
+				return false;
+			}
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test2 = {};
+			for (var i = 0; i < 10; i++) {
+				test2['_' + String.fromCharCode(i)] = i;
+			}
+			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+				return test2[n];
+			});
+			if (order2.join('') !== '0123456789') {
+				return false;
+			}
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test3 = {};
+			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+				test3[letter] = letter;
+			});
+			if (Object.keys(Object.assign({}, test3)).join('') !==
+					'abcdefghijklmnopqrst') {
+				return false;
+			}
+
+			return true;
+		} catch (e) {
+			// We don't expect any of the above to throw, but better to be safe.
+			return false;
+		}
+	}
+
+	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -562,19 +659,19 @@ var reforms =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _text = __webpack_require__(9);
+	var _text = __webpack_require__(10);
 
 	var _text2 = _interopRequireDefault(_text);
 
-	var _textarea = __webpack_require__(12);
+	var _textarea = __webpack_require__(13);
 
 	var _textarea2 = _interopRequireDefault(_textarea);
 
-	var _select = __webpack_require__(13);
+	var _select = __webpack_require__(14);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _array = __webpack_require__(14);
+	var _array = __webpack_require__(15);
 
 	var _array2 = _interopRequireDefault(_array);
 
@@ -582,11 +679,11 @@ var reforms =
 
 	var _container2 = _interopRequireDefault(_container);
 
-	var _base = __webpack_require__(10);
+	var _base = __webpack_require__(11);
 
 	var _base2 = _interopRequireDefault(_base);
 
-	__webpack_require__(15);
+	__webpack_require__(16);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -609,7 +706,7 @@ var reforms =
 	exports.Select = _select2.default;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -626,7 +723,7 @@ var reforms =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _base = __webpack_require__(10);
+	var _base = __webpack_require__(11);
 
 	var _base2 = _interopRequireDefault(_base);
 
@@ -654,10 +751,9 @@ var reforms =
 	        value: function render() {
 	            var _this2 = this;
 
-	            var _props = this.props;
-	            var type = _props.type;
-
-	            var props = _objectWithoutProperties(_props, ['type']);
+	            var _props = this.props,
+	                type = _props.type,
+	                props = _objectWithoutProperties(_props, ['type']);
 
 	            return _react2.default.createElement('input', _extends({}, props, {
 	                type: type || 'text',
@@ -675,7 +771,7 @@ var reforms =
 	exports.default = Input;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -690,7 +786,7 @@ var reforms =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _context = __webpack_require__(11);
+	var _context = __webpack_require__(12);
 
 	var _context2 = _interopRequireDefault(_context);
 
@@ -748,7 +844,7 @@ var reforms =
 	exports.default = Base;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -787,7 +883,7 @@ var reforms =
 	exports.default = FormContext;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -804,7 +900,7 @@ var reforms =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _base = __webpack_require__(10);
+	var _base = __webpack_require__(11);
 
 	var _base2 = _interopRequireDefault(_base);
 
@@ -845,7 +941,7 @@ var reforms =
 	exports.default = TextArea;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -858,7 +954,7 @@ var reforms =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _events = __webpack_require__(1);
 
@@ -868,7 +964,7 @@ var reforms =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _base = __webpack_require__(10);
+	var _base = __webpack_require__(11);
 
 	var _base2 = _interopRequireDefault(_base);
 
@@ -918,11 +1014,10 @@ var reforms =
 	        value: function render() {
 	            var _this2 = this;
 
-	            var _props = this.props;
-	            var values = _props.values;
-	            var value = _props.value;
-
-	            var props = _objectWithoutProperties(_props, ['values', 'value']);
+	            var _props = this.props,
+	                values = _props.values,
+	                value = _props.value,
+	                props = _objectWithoutProperties(_props, ['values', 'value']);
 
 	            if (!this.getValue() && values.length > 0 && Value(values[0])) {
 	                setTimeout(function () {
@@ -973,10 +1068,9 @@ var reforms =
 	        value: function render() {
 	            var _this4 = this;
 
-	            var _props2 = this.props;
-	            var values = _props2.values;
-
-	            var props = _objectWithoutProperties(_props2, ['values']);
+	            var _props2 = this.props,
+	                values = _props2.values,
+	                props = _objectWithoutProperties(_props2, ['values']);
 
 	            var filter = this.state.filter || '';
 	            return _react2.default.createElement(
@@ -1019,7 +1113,7 @@ var reforms =
 	};
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1028,7 +1122,7 @@ var reforms =
 	    value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1040,7 +1134,7 @@ var reforms =
 
 	var _container2 = _interopRequireDefault(_container);
 
-	var _context = __webpack_require__(11);
+	var _context = __webpack_require__(12);
 
 	var _context2 = _interopRequireDefault(_context);
 
@@ -1173,7 +1267,7 @@ var reforms =
 	exports.default = ArrayContainer;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
