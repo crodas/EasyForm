@@ -20,14 +20,13 @@ class Form1 extends React.Component {
 describe("Form suite", () => {
     it("renders bare form", () => {
         let XForm = new Form;
-        expect(mount(<XForm />).find('div,reform,form').length).toBe(0);
-
+        expect(mount(<XForm />).find('div,stateless,reform,form').length).toBe(0);
     });
     
     it("renders only an input, not wrapper", () => {
         let XForm = new Form;
         let form = mount(<XForm><Input name="foobar" /></XForm>);
-        expect(form.find('div,reform,form').length).toBe(0);
+        expect(form.find('div,reform,form,stateless').length).toBe(0);
         expect(form.find('input').length).toBe(1);
     });
 

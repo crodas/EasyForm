@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from './form';
-import {Random, stateless} from '../utils';
+import {Random, Stateless} from '../utils';
 import {register} from './global';
 
 export default class Container extends React.Component {
@@ -103,8 +103,8 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <stateless>
+        return <Stateless>
             {this.props.children}
-        </stateless>
+        </Stateless>
     }
 }

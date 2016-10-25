@@ -12,6 +12,9 @@ export function toArray(object) {
     return values;
 }
 
-export function stateless(props) {
+export function Stateless(props) {
+    if (!props.children) {
+        return null;
+    }
     return props.children;
 }
