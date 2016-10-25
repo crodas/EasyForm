@@ -54,6 +54,39 @@ describe("Form suite", () => {
 
         XForm.setValues({ foobar : 'bar' });
         expect(form.find('select[name="foobar"]').get(0).value).toBe('bar');
+
+        form.find('select[name="foobar"]').simulate('change', {target: { value: 'foo' }});
+        expect(form.find('select[name="foobar"]').get(0).value).toBe('foo');
+    });
+
+    it("populates (early) groups properly", () => {
+        let XForm = new Form;
+        XForm.setValues({ group: { input: 'hi'}});
+
+        let form = mount(<XForm>
+            <Group name="group">
+                <Input name="input" />
+            </Group>
+        </XForm>);
+
+
+        expect(form.find('input').get(0).value).toBe('hi');
+    });
+
+    it("populates groups properly", () => {
+        let XForm = new Form;
+
+        let form = mount(<XForm>
+            <Group name="group">
+                <Input name="input" />
+            </Group>
+        </XForm>);
+
+
+        expect(form.find('input').get(0).value).toBe('');
+
+        XForm.setValues({ group: { input: 'hi'}});
+        expect(form.find('input').get(0).value).toBe('hi');
     });
 
 });
