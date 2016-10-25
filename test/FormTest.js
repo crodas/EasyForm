@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
-import Form, {Input} from '../src/index';
+import Form, {Group, Input, Select} from '../src/index';
 
 class Form1 extends React.Component {
     constructor(args) {
@@ -39,6 +39,21 @@ describe("Form suite", () => {
         form.find('input').simulate('change', {target: {value: foobar}});
 
         expect(form.get(0).getValues()).toEqual({foobar});
+    });
+
+
+    it("renders select properly", () => {
+        let XForm = new Form;
+        let form = mount(<XForm>
+            <Select name="foobar" values={[{value: "foo", label: "Foo"}, {value: "bar", label: "Bar"}]} />
+        </XForm>);
+
+        expect(form.find('select').length).toBe(1);
+        expect(form.find('select[name="foobar"]').length).toBe(1);
+        expect(form.find('select[name="foobar"]').get(0).value).toBe('foo');
+
+        XForm.setValues({ foobar : 'bar' });
+        expect(form.find('select[name="foobar"]').get(0).value).toBe('bar');
     });
 
 });
