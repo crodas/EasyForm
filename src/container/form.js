@@ -1,7 +1,7 @@
 import React from 'react';
 import EventEmitter from 'micro-events';
 import Container from './container';
-
+import ObjectAssign from 'object-assign';
 
 class FormContainer extends Container {
     static contextTypes = {};
@@ -29,7 +29,7 @@ class Form extends EventEmitter {
         if (this._container) {
             this._container.setValues(values);
         } else {
-            this._values = Object.assign({}, this._values, values);
+            this._values = ObjectAssign({}, this._values, values);
         }
         return this;
     }

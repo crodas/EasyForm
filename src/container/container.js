@@ -1,8 +1,7 @@
 import React from 'react';
 import Form from './form';
-import {Random} from '../utils';
+import {Random, stateless} from '../utils';
 import {register} from './global';
-
 
 export default class Container extends React.Component {
     static childContextTypes = {
@@ -32,6 +31,7 @@ export default class Container extends React.Component {
 
     registerField(name, value) {
         this.inputs[name] = value;
+        value.parent = this;
         if (this.state[name]) {
             value.setState({value: this.state[name]});
         }
@@ -103,8 +103,8 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <reforms className={this.props.className||''} id={this.id}>
+        return <stateless>
             {this.props.children}
-        </reforms>
+        </stateless>
     }
 }
