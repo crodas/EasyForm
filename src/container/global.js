@@ -11,14 +11,21 @@ export function get(id) {
     return instances[id];
 }
 
-export function findWithDOM(domElement, filter = () => true) {
-    let node = domElement;
-    while (node) {
-        if (instances[node.id] && filter(instances[node.id])) {
-            return instances[node.id];
-        }
-        node = node.parentNode;
-    }
+let currentScope;
 
-    throw new Error("DOM element must be inside a form");
+export function getCurrentScope() {
+    if (!currentScope) {
+        throw new RuntimeException("Block.remove() is called outside of its scope");
+    }
+    return currentScope;
 }
+
+export function scope(callback, scope) {
+    return () => {
+        currentScope = get(scope);
+        callback();
+        currentScope = null;
+    };
+}
+
+

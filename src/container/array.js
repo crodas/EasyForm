@@ -2,22 +2,27 @@ import React from 'react';
 import Container from './container';
 import Context from '../context';
 import {toArray, Random, stateless} from '../utils';
-import {findWithDOM, get} from './global';
-
-
+import {get, scope, getCurrentScope} from './global';
 
 export default class ArrayContainer extends Container {
-    static clone = (ev, name) => {
-        let container = findWithDOM(ev.target);
-        let array = container.findElement(name);
-
-        array.addBlock();
+    static propTypes = {
+        id: React.PropTypes.string.isRequired
     };
+    static clone = function(name) {
+        if (arguments.length > 1) {
+            name = arguments[1];
+        }
+        try {
+            get(name).addBlock();
+        } catch (e) {
+            return currentScope.findElement(name).addBlock();
+        }
+    };
+
     static remove = (ev) => {
-        let container = findWithDOM(ev.target);
-        let [parentContainer, blockId] = container.props.name.split(/_/);
-        get(parentContainer).removeBlock(blockId);
+        getCurrentScope().parent.removeBlock(getCurrentScope().id);
     }
+
     constructor(args) {
         super(args);
         this.template = args.children;
@@ -52,7 +57,19 @@ export default class ArrayContainer extends Container {
 
     clone(children, id) {
         return React.Children.map(children, child => {
-            return React.cloneElement(child);
+            let props = {};
+            let children = [];
+            for (var i in child.props) {
+                props[i] = child.props[i];
+                if (typeof child.props[i] === 'function') {
+                    props[i] = scope(child.props[i], id);
+                }
+                if (i === 'children' && typeof props[i] === 'object') {
+                    props[i] = this.clone(props[i], id);
+                }
+            }
+
+            return React.cloneElement(child, props);
         });
     }
 
@@ -67,7 +84,7 @@ export default class ArrayContainer extends Container {
         let children = this.state.children;
         let id = Random();
 
-        children[id] = <Container key={id} children={this.clone(this.template, id)} name={this.id + "_" + id} />
+        children[id] = <Container key={id} id={id} children={this.clone(this.template, id)} name={this.id + "_" + id} />
 
         this.setState({children})  
     }

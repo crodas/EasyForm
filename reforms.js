@@ -374,6 +374,7 @@ var reforms =
 	        key: 'registerField',
 	        value: function registerField(name, value) {
 	            this.inputs[name] = value;
+	            value.parent = this;
 	            if (this.state[name]) {
 	                value.setState({ value: this.state[name] });
 	            }
@@ -453,8 +454,8 @@ var reforms =
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'reforms',
-	                { className: this.props.className || '', id: this.id },
+	                'stateless',
+	                null,
 	                this.props.children
 	            );
 	        }
@@ -482,6 +483,7 @@ var reforms =
 	});
 	exports.Random = Random;
 	exports.toArray = toArray;
+	exports.stateless = stateless;
 	function Random() {
 	    var length = arguments.length <= 0 || arguments[0] === undefined ? 10 : arguments[0];
 
@@ -498,6 +500,10 @@ var reforms =
 	    return values;
 	}
 
+	function stateless(props) {
+	    return props.children;
+	}
+
 /***/ },
 /* 7 */
 /***/ function(module, exports) {
@@ -509,7 +515,8 @@ var reforms =
 	});
 	exports.register = register;
 	exports.get = get;
-	exports.findWithDOM = findWithDOM;
+	exports.getCurrentScope = getCurrentScope;
+	exports.scope = scope;
 	var instances = {};
 
 	function register(cont) {
@@ -523,20 +530,21 @@ var reforms =
 	    return instances[id];
 	}
 
-	function findWithDOM(domElement) {
-	    var filter = arguments.length <= 1 || arguments[1] === undefined ? function () {
-	        return true;
-	    } : arguments[1];
+	var currentScope = void 0;
 
-	    var node = domElement;
-	    while (node) {
-	        if (instances[node.id] && filter(instances[node.id])) {
-	            return instances[node.id];
-	        }
-	        node = node.parentNode;
+	function getCurrentScope() {
+	    if (!currentScope) {
+	        throw new RuntimeException("Block.remove() is called outside of its scope");
 	    }
+	    return currentScope;
+	}
 
-	    throw new Error("DOM element must be inside a form");
+	function scope(callback, scope) {
+	    return function () {
+	        currentScope = get(scope);
+	        callback();
+	        currentScope = null;
+	    };
 	}
 
 /***/ },
@@ -1020,7 +1028,7 @@ var reforms =
 	    value: true
 	});
 
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1071,6 +1079,8 @@ var reforms =
 	    }, {
 	        key: 'setValues',
 	        value: function setValues(values) {
+	            var _this2 = this;
+
 	            if (!(values instanceof Array)) {
 	                throw new Error('Expecting array of values for ' + this.props.name);
 	            }
@@ -1081,16 +1091,32 @@ var reforms =
 	                this.addBlock();
 	            }
 
-	            inputs = (0, _utils.toArray)(this.inputs);
-	            for (var _i = 0; _i < values.length; ++_i) {
-	                inputs[_i].setValues(values[_i]);
-	            }
+	            setTimeout(function () {
+	                inputs = (0, _utils.toArray)(_this2.inputs);
+	                for (var _i = 0; _i < values.length; ++_i) {
+	                    inputs[_i].setValues(values[_i]);
+	                }
+	            });
 	        }
 	    }, {
 	        key: 'clone',
 	        value: function clone(children, id) {
+	            var _this3 = this;
+
 	            return _react2.default.Children.map(children, function (child) {
-	                return _react2.default.cloneElement(child);
+	                var props = {};
+	                var children = [];
+	                for (var i in child.props) {
+	                    props[i] = child.props[i];
+	                    if (typeof child.props[i] === 'function') {
+	                        props[i] = (0, _global.scope)(child.props[i], id);
+	                    }
+	                    if (i === 'children' && _typeof(props[i]) === 'object') {
+	                        props[i] = _this3.clone(props[i], id);
+	                    }
+	                }
+
+	                return _react2.default.cloneElement(child, props);
 	            });
 	        }
 	    }, {
@@ -1107,7 +1133,7 @@ var reforms =
 	            var children = this.state.children;
 	            var id = (0, _utils.Random)();
 
-	            children[id] = _react2.default.createElement(_container2.default, { key: id, children: this.clone(this.template, id), name: this.id + "_" + id });
+	            children[id] = _react2.default.createElement(_container2.default, { key: id, id: id, children: this.clone(this.template, id), name: this.id + "_" + id });
 
 	            this.setState({ children: children });
 	        }
@@ -1115,8 +1141,8 @@ var reforms =
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'reforms',
-	                { className: this.props.className || '', id: this.id },
+	                'stateless',
+	                null,
 	                (0, _utils.toArray)(this.state.children)
 	            );
 	        }
@@ -1125,24 +1151,23 @@ var reforms =
 	    return ArrayContainer;
 	}(_container2.default);
 
-	ArrayContainer.clone = function (ev, name) {
-	    var container = (0, _global.findWithDOM)(ev.target);
-	    var array = container.findElement(name);
+	ArrayContainer.propTypes = {
+	    id: _react2.default.PropTypes.string.isRequired
+	};
 
-	    array.addBlock();
+	ArrayContainer.clone = function (name) {
+	    if (arguments.length > 1) {
+	        name = arguments[1];
+	    }
+	    try {
+	        (0, _global.get)(name).addBlock();
+	    } catch (e) {
+	        return currentScope.findElement(name).addBlock();
+	    }
 	};
 
 	ArrayContainer.remove = function (ev) {
-	    var container = (0, _global.findWithDOM)(ev.target);
-
-	    var _container$props$name = container.props.name.split(/_/);
-
-	    var _container$props$name2 = _slicedToArray(_container$props$name, 2);
-
-	    var parentContainer = _container$props$name2[0];
-	    var blockId = _container$props$name2[1];
-
-	    (0, _global.get)(parentContainer).removeBlock(blockId);
+	    (0, _global.getCurrentScope)().parent.removeBlock((0, _global.getCurrentScope)().id);
 	};
 
 	exports.default = ArrayContainer;
