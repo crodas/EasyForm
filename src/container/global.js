@@ -1,5 +1,9 @@
 let instances = {};
 
+export function deregister(cont) {
+    delete instances[cont.id];
+}
+
 export function register(cont) {
     if (instances[cont.id]) {
         throw new Error(`Container with id=${cont.id} already exists in the document`);
