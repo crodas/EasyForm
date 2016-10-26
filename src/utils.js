@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function Random(length = 10) {
     return Math.random().toString(36).substr(2, length);
 }
@@ -13,8 +15,8 @@ export function toArray(object) {
 }
 
 export function Stateless(props) {
-    if (!props.children) {
-        return null;
+    if (props.children instanceof Array) {
+        return <div>{props.children}</div>;
     }
-    return props.children;
+    return props.children || null;
 }

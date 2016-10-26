@@ -208,6 +208,8 @@ var reforms =
 
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
+	var _utils = __webpack_require__(6);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -292,7 +294,15 @@ var reforms =
 
 	    var form = new Form();
 	    var wrapper = function wrapper(args) {
-	        return _react2.default.createElement(FormContainer, _extends({}, args, { form: form, values: form._values }));
+	        return _react2.default.createElement(
+	            FormContainer,
+	            _extends({}, args, { form: form, values: form._values }),
+	            _react2.default.createElement(
+	                _utils.Stateless,
+	                null,
+	                args.children
+	            )
+	        );
 	    };
 
 	    for (var prop in form) {
@@ -531,6 +541,9 @@ var reforms =
 	var instances = {};
 
 	function register(cont) {
+	    if (instances[cont.id]) {
+	        throw new Error("Container with id=" + cont.id + " already exists in the document");
+	    }
 	    instances[cont.id] = cont;
 	}
 

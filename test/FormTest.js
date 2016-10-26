@@ -88,4 +88,19 @@ describe("Form suite", () => {
         expect(form.find('input').get(0).value).toBe('hi');
     });
 
+    it("fails with two containers with same ID", () => {
+        expect(() => {
+            let XForm = new Form;
+            let form = mount(<XForm>
+                <Group id="foobar" name="foobar">
+                    <Input name="input" />
+                </Group>
+                <Group id="foobar" name="barfoo">
+                    <Input name="input" />
+                </Group>
+            </XForm>);
+
+        }).toThrow(new Error("Container with id=foobar already exists in the document"));
+    });
+
 });
