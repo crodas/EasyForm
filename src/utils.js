@@ -15,8 +15,10 @@ export function toArray(object) {
 }
 
 export function Stateless(props) {
-    if (props.children instanceof Array) {
-        return <div>{props.children}</div>;
+    if (!props.children) {
+        return null;
+    } else if (React.isValidElement(props.children)) {
+        return props.children;
     }
-    return props.children || null;
+    return <div>{props.children}</div>;
 }

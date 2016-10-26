@@ -208,8 +208,6 @@ var reforms =
 
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-	var _utils = __webpack_require__(6);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -297,11 +295,7 @@ var reforms =
 	        return _react2.default.createElement(
 	            FormContainer,
 	            _extends({}, args, { form: form, values: form._values }),
-	            _react2.default.createElement(
-	                _utils.Stateless,
-	                null,
-	                args.children
-	            )
+	            args.children
 	        );
 	    };
 
@@ -492,9 +486,9 @@ var reforms =
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -502,6 +496,13 @@ var reforms =
 	exports.Random = Random;
 	exports.toArray = toArray;
 	exports.Stateless = Stateless;
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function Random() {
 	    var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
 
@@ -521,8 +522,14 @@ var reforms =
 	function Stateless(props) {
 	    if (!props.children) {
 	        return null;
+	    } else if (_react2.default.isValidElement(props.children)) {
+	        return props.children;
 	    }
-	    return props.children;
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        props.children
+	    );
 	}
 
 /***/ },

@@ -69,6 +69,7 @@ describe("Form suite", () => {
         </XForm>);
 
 
+        expect(form.find('div').length).toBe(0);
         expect(form.find('input').get(0).value).toBe('hi');
     });
 
@@ -79,9 +80,11 @@ describe("Form suite", () => {
             <Group name="group">
                 <Input name="input" />
             </Group>
+            <Input name="xxx" />
         </XForm>);
 
 
+        expect(form.find('div').length).toBe(1);
         expect(form.find('input').get(0).value).toBe('');
 
         XForm.setValues({ group: { input: 'hi'}});
