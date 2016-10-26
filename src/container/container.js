@@ -103,7 +103,7 @@ export default class Container extends React.Component {
     }
 
     render() {
-        return <Stateless>
+        return <Stateless className="reform container">
             {this.props.children}
         </Stateless>
     }

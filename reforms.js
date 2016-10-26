@@ -467,7 +467,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _utils.Stateless,
-	                null,
+	                { className: 'reform container' },
 	                this.props.children
 	            );
 	        }
@@ -527,7 +527,7 @@ var reforms =
 	    }
 	    return _react2.default.createElement(
 	        'div',
-	        null,
+	        props,
 	        props.children
 	    );
 	}
@@ -1259,7 +1259,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _utils.Stateless,
-	                null,
+	                { className: 'reform container repetitive' },
 	                (0, _utils.toArray)(this.state.children)
 	            );
 	        }

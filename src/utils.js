@@ -20,5 +20,7 @@ export function Stateless(props) {
     } else if (React.isValidElement(props.children)) {
         return props.children;
     }
-    return <div>{props.children}</div>;
+    return <div {...props}>
+        {props.children}
+    </div>;
 }
