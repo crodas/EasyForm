@@ -367,7 +367,6 @@ var reforms =
 	        _this.inputs = {};
 	        _this.state = {};
 	        _this.id = _this.props.id || (0, _utils.Random)();
-	        (0, _global.register)(_this);
 	        return _this;
 	    }
 
@@ -388,7 +387,7 @@ var reforms =
 	            this.inputs[name] = value;
 	            value.parent = this;
 	            if (this.state[name]) {
-	                value.setState({ value: this.state[name] });
+	                value.setValues(this.state[name]);
 	            }
 	        }
 	    }, {
@@ -453,11 +452,13 @@ var reforms =
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            (0, _global.register)(this);
 	            this.context.container.registerField(this.props.name, this);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
+	            (0, _global.deregister)(this);
 	            if (this.context.container) {
 	                this.context.container.removeField(this.props.name);
 	            }
@@ -467,7 +468,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _utils.Stateless,
-	                { className: 'reform container' },
+	                { className: 'reform container', id: this.props.id },
 	                this.props.children
 	            );
 	        }
@@ -520,11 +521,14 @@ var reforms =
 	}
 
 	function Stateless(props) {
-	    if (!props.children) {
+	    if (!props.children || (props.children || []).length === 0) {
 	        return null;
 	    } else if (_react2.default.isValidElement(props.children)) {
 	        return props.children;
+	    } else if (props.children.length === 1) {
+	        return props.children[0];
 	    }
+
 	    return _react2.default.createElement(
 	        'div',
 	        props,
@@ -541,11 +545,16 @@ var reforms =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.deregister = deregister;
 	exports.register = register;
 	exports.get = get;
 	exports.getCurrentScope = getCurrentScope;
 	exports.scope = scope;
 	var instances = {};
+
+	function deregister(cont) {
+	    delete instances[cont.id];
+	}
 
 	function register(cont) {
 	    if (instances[cont.id]) {
@@ -1259,7 +1268,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _utils.Stateless,
-	                { className: 'reform container repetitive' },
+	                { className: 'reform container repetitive', id: this.props.id },
 	                (0, _utils.toArray)(this.state.children)
 	            );
 	        }

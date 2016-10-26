@@ -52,7 +52,6 @@ export default class ArrayContainer extends Container {
                 inputs[i].setValues(values[i]);
             }
         });
-
     }
 
     clone(children, id) {
@@ -90,7 +89,7 @@ export default class ArrayContainer extends Container {
     }
 
     render() {
-        return <Stateless className="reform container repetitive">
+        return <Stateless className="reform container repetitive" id={this.props.id}>
             {toArray(this.state.children)}
         </Stateless>
     }

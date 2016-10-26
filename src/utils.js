@@ -15,11 +15,14 @@ export function toArray(object) {
 }
 
 export function Stateless(props) {
-    if (!props.children) {
+    if (!props.children || (props.children||[]).length === 0) {
         return null;
     } else if (React.isValidElement(props.children)) {
         return props.children;
+    } else if (props.children.length === 1) {
+        return props.children[0];
     }
+
     return <div {...props}>
         {props.children}
     </div>;

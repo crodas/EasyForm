@@ -77,7 +77,7 @@ describe("Form suite", () => {
         let XForm = new Form;
 
         let form = mount(<XForm>
-            <Group name="group">
+            <Group name="group" id="foobar">
                 <Input name="input" />
             </Group>
             <Input name="xxx" />
@@ -89,21 +89,71 @@ describe("Form suite", () => {
 
         XForm.setValues({ group: { input: 'hi'}});
         expect(form.find('input').get(0).value).toBe('hi');
+
+        form.unmount();
     });
 
     it("fails with two containers with same ID", () => {
         expect(() => {
             let XForm = new Form;
             let form = mount(<XForm>
-                <Group id="foobar" name="foobar">
+                <Group id="foobarx" name="foobar">
                     <Input name="input" />
                 </Group>
-                <Group id="foobar" name="barfoo">
+                <Group id="foobarx" name="barfoo">
                     <Input name="input" />
                 </Group>
             </XForm>);
 
-        }).toThrow(new Error("Container with id=foobar already exists in the document"));
+        }).toThrow(new Error("Container with id=foobarx already exists in the document"));
+    });
+
+    it("multiple groups", () => {
+        let XForm = new Form;
+        let html = mount(<XForm>
+            <table>
+                <tbody>
+                    <Group multiple={true} name="foobar" id="foobar">
+                        <tr>
+                            <td><Input name="foobar" /></td>
+                            <td><button onClick={ev => Group.remove(ev)}>Remove</button></td>
+                        </tr>
+                    </Group>
+                    <tr>
+                        <td><a onClick={e => Group.add("foobar")}>Add block</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </XForm>);
+
+        expect(XForm.getValues()).toEqual({foobar: []});
+
+        expect(html.find('div').length).toBe(0);
+        expect(html.find('input').length).toBe(0);
+
+        html.find('a').simulate('click');
+
+        expect(html.find('input').length).toBe(1);
+
+        html.find('a').simulate('click').simulate('click');
+        expect(html.find('input').length).toBe(3);
+
+        html.find('input').at(0).simulate('change', {target: {value: 'foobar0'}});
+        html.find('input').at(1).simulate('change', {target: {value: 'foobar1'}});
+        html.find('input').at(2).simulate('change', {target: {value: 'foobar2'}});
+        expect(XForm.getValues()).toEqual({foobar: [{foobar: 'foobar0'}, {foobar: 'foobar1'}, {foobar: 'foobar2'}]});
+
+
+        html.find('button').at(1).simulate('click');
+        expect(XForm.getValues()).toEqual({foobar: [{foobar: 'foobar0'}, {foobar: 'foobar2'}]});
+
+        html.find('button').last().simulate('click');
+        expect(XForm.getValues()).toEqual({foobar: [{foobar: 'foobar0'}]});
+
+        html.find('button').last().simulate('click');
+        expect(XForm.getValues()).toEqual({foobar: []});
+
+
     });
 
 });
