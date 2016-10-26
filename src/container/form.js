@@ -49,7 +49,7 @@ export default class WrappedForm {
     constructor() {
         let form = new Form;
         let wrapper = function(args) {
-            return <FormContainer {...args} form={form} values={form._values} />
+            return <FormContainer {...args} form={form} values={form._values}>{args.children}</FormContainer>
         };
 
         for (let prop in form) {

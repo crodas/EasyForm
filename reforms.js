@@ -292,7 +292,11 @@ var reforms =
 
 	    var form = new Form();
 	    var wrapper = function wrapper(args) {
-	        return _react2.default.createElement(FormContainer, _extends({}, args, { form: form, values: form._values }));
+	        return _react2.default.createElement(
+	            FormContainer,
+	            _extends({}, args, { form: form, values: form._values }),
+	            args.children
+	        );
 	    };
 
 	    for (var prop in form) {
@@ -463,7 +467,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _utils.Stateless,
-	                null,
+	                { className: 'reform container' },
 	                this.props.children
 	            );
 	        }
@@ -482,9 +486,9 @@ var reforms =
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -492,6 +496,13 @@ var reforms =
 	exports.Random = Random;
 	exports.toArray = toArray;
 	exports.Stateless = Stateless;
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function Random() {
 	    var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
 
@@ -511,8 +522,14 @@ var reforms =
 	function Stateless(props) {
 	    if (!props.children) {
 	        return null;
+	    } else if (_react2.default.isValidElement(props.children)) {
+	        return props.children;
 	    }
-	    return props.children;
+	    return _react2.default.createElement(
+	        'div',
+	        props,
+	        props.children
+	    );
 	}
 
 /***/ },
@@ -531,6 +548,9 @@ var reforms =
 	var instances = {};
 
 	function register(cont) {
+	    if (instances[cont.id]) {
+	        throw new Error("Container with id=" + cont.id + " already exists in the document");
+	    }
 	    instances[cont.id] = cont;
 	}
 
@@ -1239,7 +1259,7 @@ var reforms =
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _utils.Stateless,
-	                null,
+	                { className: 'reform container repetitive' },
 	                (0, _utils.toArray)(this.state.children)
 	            );
 	        }

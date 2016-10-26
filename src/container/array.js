@@ -90,7 +90,7 @@ export default class ArrayContainer extends Container {
     }
 
     render() {
-        return <Stateless>
+        return <Stateless className="reform container repetitive">
             {toArray(this.state.children)}
         </Stateless>
     }
